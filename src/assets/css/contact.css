@@ -1,0 +1,9 @@
+.contact-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 2rem; align-items: start; }
+.contact-form { display: grid; gap: 1.25rem; }
+.contact-form .button-row { margin-top: .25rem; }
+.contact-form .button { min-width: 0; }
+.form-note { color: var(--muted); font-size: .85rem; }
+.inquiry-draft { margin-top: 2rem; }
+.inquiry-draft textarea { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .85rem; }
+.form-status { margin-top: 1rem; }
+@media (max-width: 760px) { .contact-layout { grid-template-columns: 1fr; } }

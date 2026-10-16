@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TXO R — Developer & Scientist Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #1A1A1A;
+      --bg-card: #1A1A1A;
+      --bg-deep: #141414;
+      --blue-bright: #3597DC;
+      --blue-btn: #3597DC;
+      --blue-text: #3597DC;
+      --blue-muted: rgba(53, 151, 220, 0.72);
+      --border-line: #3597DC;
+      --border-hero: #3597DC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--blue-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d0e11;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3597DC;
+      border-radius: 2px;
+    }
+
+    /* Exact ambient glow matching SVG filter_5, filter_6, filter_9 (#3B32DB at 56% opacity, blur 160px) */
+    .hero-left-glow {
+      position: relative;
+      background:
+        radial-gradient(circle at 75% 15%, rgba(59, 50, 219, 0.24) 0%, rgba(59, 50, 219, 0) 55%),
+        radial-gradient(circle at 18% 88%, rgba(59, 50, 219, 0.22) 0%, rgba(59, 50, 219, 0) 55%),
+        #1A1A1A;
+    }
+
+    /* Exact drop-shadow glow on "TXO R" matching SVG filter_2 */
+    .txor-title-glow {
+      text-shadow: 0 0 29px rgba(53, 151, 220, 0.35);
+    }
+
+    .section-glow {
+      background: radial-gradient(ellipse at 45% 0%, rgba(59, 50, 219, 0.16) 0%, rgba(26, 26, 26, 0) 65%);
+    }
+
+    .wire-border {
+      border: 1px solid var(--border-line);
+    }
+
+    .wire-border-hero {
+      border: 1px solid var(--border-hero);
+    }
+
+    .wire-divider-top {
+      border-top: 1px solid var(--border-line);
+    }
+
+    .wire-divider-bottom {
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .btn-solid-blue {
+      background-color: var(--blue-btn);
+      color: #1A1A1A;
+      font-weight: 500;
+      border: 1px solid var(--blue-btn);
+      border-radius: 0px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .btn-solid-blue:hover {
+      background-color: #45a4e8;
+      border-color: #45a4e8;
+      box-shadow: 0 0 20px rgba(53, 151, 220, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-blue {
+      background-color: transparent;
+      color: var(--blue-text);
+      border: 1px solid var(--border-line);
+      border-radius: 0px;
+      font-weight: 400;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .btn-outline-blue:hover,
+    .btn-outline-blue.active-pill {
+      border-color: var(--blue-bright);
+      color: var(--blue-bright);
+      background-color: rgba(53, 151, 220, 0.1);
+      box-shadow: 0 0 16px rgba(53, 151, 220, 0.32);
+    }
+
+    .editable-img-wrapper {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--bg-card);
+    }
+
+    .editable-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease, opacity 0.25s ease;
+    }
+
+    .img-edit-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(11, 18, 28, 0.92);
+      border: 1px solid var(--blue-bright);
+      color: var(--blue-bright);
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 2px;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 20;
+    }
+
+    body.edit-mode-active .img-edit-badge,
+    .editable-img-wrapper:hover .img-edit-badge {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.edit-mode-active .editable-img-wrapper {
+      outline: 1px dashed #3696eb;
+      outline-offset: -2px;
+    }
+
+    .hero-box-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .hero-box-grid {
+        grid-template-columns: 1fr 454px;
+        min-height: 454px;
+      }
+    }
+
+    .hero-image-cell {
+      border-top: 1px solid var(--border-hero);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(59, 50, 219, 0.25) 0%, rgba(26, 26, 26, 0.95) 70%),
+        #1A1A1A;
+    }
+
+    @media (min-width: 768px) {
+      .hero-image-cell {
+        border-top: none;
+        border-left: 1px solid var(--border-hero);
+      }
+    }
+
+    /* Mobile inner square frame matching image_a1005b.png */
+    .hero-avatar-frame {
+      width: 62%;
+      aspect-ratio: 1 / 1;
+      border-left: 1px solid var(--border-hero);
+      border-right: 1px solid var(--border-hero);
+      background: radial-gradient(circle at 50% 35%, #0c1228 0%, #070913 70%, #05060b 100%);
+    }
+
+    @media (min-width: 768px) {
+      .hero-avatar-frame {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        border-left: none;
+        border-right: none;
+      }
+    }
+
+    .services-grid-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(125px, 165px));
+      gap: 18px 22px;
+      justify-content: center;
+    }
+
+    .services-grid-layout .service-btn-item:last-child {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - 11px);
+    }
+
+    @media (min-width: 900px) {
+      .services-grid-layout {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 28px;
+      }
+      .services-grid-layout .service-btn-item {
+        width: 131px;
+        height: 44px;
+        flex-shrink: 0;
+      }
+      .services-grid-layout .service-btn-item:last-child {
+        width: 131px;
+      }
+    }
+
+    /* Page transition animation */
+    .page-view {
+      animation: fadeView 0.25s ease-out;
+    }
+
+    @keyframes fadeView {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="w-full wire-divider-bottom bg-[#1A1A1A]/95 sticky top-0 z-40 backdrop-blur-sm">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-[28px] h-[76px] md:h-[97px] flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="#home" onclick="navigateTo('home'); return false;" class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wider select-none hover:opacity-90 transition-opacity">
+        TXO R
+      </a>
+
+      <!-- Desktop Center Nav Links -->
+      <nav class="hidden md:flex items-center space-x-10 text-[16px] tracking-wide text-[#3597DC]">
+        <a href="#about" onclick="navigateTo('home', 'about'); return false;" class="hover:opacity-80 transition-opacity">About Me</a>
+        <a href="#services" onclick="navigateTo('services'); return false;" class="hover:opacity-80 transition-opacity" id="nav-services-desktop">Services</a>
+        <a href="#projects" onclick="navigateTo('projects'); return false;" class="hover:opacity-80 transition-opacity" id="nav-projects-desktop">Projects</a>
+        <a href="#contact" onclick="openContactModal(); return false;" class="hover:opacity-80 transition-opacity">Contact Me</a>
+      </nav>
+
+      <!-- Desktop Right Hire Me Button -->
+      <div class="hidden md:block">
+        <button onclick="openContactModal('Hire TXO R')" class="btn-solid-blue text-[16px] w-[131px] h-[44px]">
+          Hire Me
+        </button>
+      </div>
+
+      <!-- Mobile Stacked Right Navigation -->
+      <nav class="flex md:hidden flex-col items-end text-[11px] leading-[1.35] text-[#3597DC] font-normal">
+        <a href="#contact" onclick="openContactModal(); return false;" class="hover:opacity-100 opacity-75">Contact Me</a>
+        <a href="#services" onclick="navigateTo('services'); return false;" class="hover:opacity-100">Services</a>
+        <a href="#about" onclick="navigateTo('home', 'about'); return false;" class="font-medium">About Me</a>
+        <a href="#projects" onclick="navigateTo('projects'); return false;" class="hover:opacity-100 opacity-85">Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow w-full">
+
+    <!-- ========================================== -->
+    <!-- 1. HOME PAGE VIEW (EXACT SVG REPLICA)      -->
+    <!-- ========================================== -->
+    <div id="view-home" class="page-view">
+
+      <!-- HERO SECTION (Flush with top & bottom 1280px horizontal lines as in SVG) -->
+      <section id="about" class="w-full wire-divider-bottom">
+        <div class="max-w-[1280px] mx-auto px-3.5 sm:px-[28px]">
+          <div class=" border-l border-r border-[#3597DC] hero-box-grid">
+            <!-- Left Text Column -->
+            <div class="hero-left-glow px-5 py-9 sm:px-[22px] sm:py-12 flex flex-col justify-center items-center md:items-start text-center md:text-left">
+              <p class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wide leading-tight mb-2">
+                Hey, I am
+              </p>
+              <h1 class="text-[#3597DC] txor-title-glow text-5xl sm:text-[96px] font-bold tracking-tight leading-none mb-6">
+                TXO R
+              </h1>
+
+              <!-- Editable Bio Copy matching exact SVG text -->
+              <div id="hero-bio-text" class="text-[#3597DC] text-[12px] sm:text-[16px] leading-[1.45] max-w-[733px] mb-7 font-normal space-y-0.5">
+                <p>hello my name is mohammed , you can call me TXO R i am Developer and Scientist From Algeria</p>
+                <p>I make High Quality and beautiful Products that will generate real Money</p>
+                <p>and help your business grow , it means i make money machine products</p>
+                <p>and can help you with different specialities , Marketing , Graphic and UI/UX design , Automation</p>
+              </div>
+
+              <!-- Hero CTA Buttons (131x44 exact SVG dimensions) -->
+              <div class="flex items-center justify-center md:justify-start space-x-[13px] w-full sm:w-auto">
+                <button onclick="openContactModal('Hire Me — Priority Project')" class="btn-solid-blue text-xs sm:text-[16px] w-[131px] h-[44px]">
+                  Hire Me
+                </button>
+                <button onclick="navigateTo('projects')" class="btn-outline-blue text-xs sm:text-[16px] w-[131px] h-[44px]">
+                  Learn More
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-image-cell">
+              <div class="hero-avatar-frame editable-img-wrapper">
+                <!-- Standard HTML <img> tag — editable by user via code or live UI -->
+                <img
+                  id="hero-avatar-img"
+                  src=""
+                  alt="TXO R 3D Character Portrait"
+                  onclick="handleImageClick('hero-avatar-img', 'Hero Portrait Image')"
+                />
+                <button
+                  type="button"
+                  onclick="openImageEditorModal('hero-avatar-img', 'Hero Portrait Image')"
+                  class="img-edit-badge"
+                >
+                  Edit Picture (img)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-glow max-w-[1280px] mx-auto px-4 sm:px-[28px] pt-12 pb-24 sm:pt-[48px] sm:pb-[160px] text-center">
+        <h2 class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wide mb-4">
+          What I do
+        </h2>
+        <p class="text-[#3597DC] text-[12px] sm:text-[16px] leading-[1.45] max-w-[733px] mx-auto mb-12 sm:mb-[140px] font-normal">
+          here is what i do , if you need anything just click the button and learn more about the service<br class="hidden sm:inline" />
+          and trust me this is your chance if you need work to be done i will amaze you
+        </p>
+
+        <!-- 7 Service Buttons (Matches desktop 131x44 single row & mobile 2-col + 1 layout) -->
+        <div id="home-services-buttons" class="services-grid-layout max-w-[1100px] mx-auto">
+          <!-- Populated dynamically from services state -->
+        </div>
+      </section>
+
+      <section class="w-full wire-divider-top">
+        <div class="max-w-[1280px] mx-auto px-5 sm:px-[101px] pt-12 pb-20 sm:pt-[48px] sm:pb-[95px]">
+          <div class="relative flex flex-col items-center justify-center mb-10 sm:mb-[95px]">
+            <h2 class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wide text-center">
+              Projects
+            </h2>
+            <!-- Subtle Dynamic Source Controls -->
+            <div class="mt-3 flex flex-wrap items-center justify-center gap-2 text-[11px] text-[#3597DC]/80">
+              <span id="active-source-badge" class="px-2.5 py-0.5 wire-border bg-[#1A1A1A] text-[#3597DC]">
+                Source: Default TXO R Projects
+              </span>
+              <button
+                onclick="openDataSourceModal()"
+                class="px-2.5 py-0.5 wire-border hover:bg-[#3597DC]/10 transition-colors"
+              >
+                Fetch / Sync Projects API
+              </button>
+              <button
+                onclick="navigateTo('projects')"
+                class="px-2.5 py-0.5 wire-border hover:bg-[#3597DC]/10 transition-colors"
+              >
+                Open Full Project Page →
+              </button>
+            </div>
+          </div>
+
+          <!-- Projects Grid (3 columns of 341px with 28px gap on desktop matching SVG) -->
+          <div id="home-projects-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-[28px] max-w-[1079px] mx-auto">
+            <!-- Dynamically rendered project cards with standard <img> tags -->
+          </div>
+        </div>
+      </section>
+
+      <section class="w-full wire-divider-top">
+        <div class="max-w-[1280px] mx-auto px-4 py-24 sm:pt-[236px] sm:pb-[240px] text-center flex flex-col items-center justify-center">
+          <h2 class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wide mb-8 leading-snug">
+            Need Custom Solution ?
+          </h2>
+          <button
+            onclick="openContactModal('Custom Solution Inquiry')"
+            class="btn-solid-blue text-xs sm:text-[16px] w-[131px] h-[44px]"
+          >
+            Contact Me
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. DEDICATED SERVICE PAGE VIEW             -->
+    <!-- ========================================== -->
+    <div id="view-services" class="page-view hidden">
+      <section class="max-w-[1120px] mx-auto px-4 sm:px-7 pt-6 pb-20">
+        <!-- Breadcrumb & Back Navigation -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-5 wire-divider-bottom mb-8">
+          <div class="flex items-center space-x-3 text-xs">
+            <button onclick="navigateTo('home')" class="btn-outline-blue px-4 py-1.5 text-xs">
+              ← Back to Home
+            </button>
+            <span class="text-[#1e5a8a]">/</span>
+            <span class="text-[#3696eb] font-light tracking-wide">Services & Solutions</span>
+          </div>
+          <button onclick="openServiceEditorModal()" class="btn-outline-blue px-4 py-1.5 text-xs">
+            + Edit Current Service Content
+          </button>
+        </div>
+
+        <!-- Service Switcher Pills (All 7 Services from Mockup) -->
+        <div class="mb-10">
+          <p class="text-xs text-[#266ca8] mb-3 uppercase tracking-wider">Select a Speciality to Explore:</p>
+          <div id="service-page-tabs" class="flex flex-wrap gap-2.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Active Service Main Box -->
+        <div class="wire-border-hero bg-[#14161b] grid grid-cols-1 lg:grid-cols-12 mb-12">
+          <!-- Left Service Details -->
+          <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between hero-left-glow">
+            <div>
+              <div class="inline-block px-3 py-1 wire-border text-[11px] text-[#3696eb] mb-4" id="service-detail-badge">
+                TXO R SPECIALITY #01
+              </div>
+              <h1 id="service-detail-title" class="text-3xl sm:text-4xl font-light text-[#3696eb] mb-4">
+                Graphic Design
+              </h1>
+              <p id="service-detail-summary" class="text-[#2c7ec2] text-sm leading-relaxed mb-6">
+                High-converting visual identity, brand systems, and marketing assets crafted to position your product as an authority and generate real revenue.
+              </p>
+
+              <!-- Key Deliverables -->
+              <h3 class="text-xs uppercase tracking-wider text-[#3696eb] mb-3">What You Get (Deliverables):</h3>
+              <ul id="service-detail-deliverables" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-[#2c7ec2] mb-8">
+                <!-- Populated by JS -->
+              </ul>
+            </div>
+
+            <div class="pt-5 wire-divider-top flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <span class="text-[11px] text-[#266ca8] block">Estimated Turnaround & Starting Tier</span>
+                <span id="service-detail-price" class="text-lg font-semibold text-[#3696eb]">Custom / Revenue-Focused</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <button onclick="openContactModal('Service Booking: ' + currentServiceId)" class="btn-solid-blue px-6 py-2.5 text-xs">
+                  Order This Service
+                </button>
+                <button onclick="navigateTo('projects')" class="btn-outline-blue px-5 py-2.5 text-xs">
+                  See Related Projects
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Editable Service Picture (Strictly <img>) -->
+          <div class="lg:col-span-5 wire-divider-top lg:border-t-0 lg:border-l border-[#236aa3] p-5 flex flex-col justify-center bg-[#121316]">
+            <div class="w-full aspect-square wire-border editable-img-wrapper">
+              <img
+                id="service-showcase-img"
+                src=""
+                alt="Service Visual Showcase"
+                onclick="handleImageClick('service-showcase-img', 'Service Showcase Picture')"
+              />
+              <button
+                type="button"
+                onclick="openImageEditorModal('service-showcase-img', 'Service Showcase Picture')"
+                class="img-edit-badge"
+              >
+                Edit Service Picture (img)
+              </button>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-[11px] text-[#266ca8]">
+              <span id="service-img-caption">Visual Preview — Standard &lt;img&gt; Element</span>
+              <button onclick="openImageEditorModal('service-showcase-img', 'Service Showcase Picture')" class="text-[#3696eb] hover:underline">
+                Change Image URL / Upload
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Workflow & All Services Overview Grid -->
+        <div class="mb-14">
+          <h2 class="text-xl sm:text-2xl font-light text-[#2c7ec2] mb-6 text-center">
+            How TXO R Delivers Money-Machine Results
+          </h2>
+          <div id="service-workflow-steps" class="grid grid-cols-1 md:grid-cols-4 gap-5">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Complete Catalog of All 7 Services with Individual Editable <img> Pictures -->
+        <div class="pt-10 wire-divider-top">
+          <h2 class="text-xl sm:text-2xl font-light text-[#2c7ec2] mb-8 text-center">
+            All Services Catalog (Click Any Card or Edit Picture)
+          </h2>
+          <div id="all-services-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. DEDICATED PROJECT PAGE VIEW             -->
+    <!-- ========================================== -->
+    <div id="view-projects" class="page-view hidden">
+      <section class="max-w-[1120px] mx-auto px-4 sm:px-7 pt-6 pb-20">
+        <!-- Top Navigation & Dynamic API Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-5 wire-divider-bottom mb-8">
+          <div class="flex items-center space-x-3 text-xs">
+            <button onclick="navigateTo('home')" class="btn-outline-blue px-4 py-1.5 text-xs">
+              ← Back to Home
+            </button>
+            <span class="text-[#1e5a8a]">/</span>
+            <button onclick="showProjectsDirectory()" class="text-[#3696eb] hover:underline font-light tracking-wide">
+              All Projects
+            </button>
+            <span id="project-breadcrumb-current" class="text-[#2c7ec2] hidden"></span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="openDataSourceModal()" class="btn-outline-blue px-4 py-1.5 text-xs">
+              ⚡ Dynamic Fetch from URL / API
+            </button>
+            <button onclick="openAddProjectModal()" class="btn-solid-blue px-4 py-1.5 text-xs">
+              + Add New Project
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Data Source Live Bar -->
+        <div class="wire-border bg-[#15171c] p-4 sm:p-5 mb-9 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-[#3696eb] inline-block"></span>
+              <h3 class="text-xs font-medium text-[#3696eb] uppercase tracking-wider">
+                Dynamic Project Fetching Engine
+              </h3>
+            </div>
+            <p class="text-[11.5px] text-[#2c7ec2] mt-1">
+              Fetch projects dynamically from any external JSON endpoint, REST API, or preset feed. All project thumbnails use standard editable <code class="text-[#3696eb]">&lt;img&gt;</code> tags.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+            <input
+              id="quick-fetch-url-input"
+              type="text"
+              placeholder="Paste any JSON API URL (or choose preset in Fetch Modal)..."
+              class="bg-[#101216] wire-border px-3.5 py-2 text-xs text-[#3696eb] placeholder-[#1e5a8a] focus:outline-none focus:border-[#3696eb] min-w-[260px] sm:min-w-[320px]"
+            />
+            <button onclick="quickFetchFromInput()" class="btn-solid-blue px-5 py-2 text-xs whitespace-nowrap">
+              Fetch JSON
+            </button>
+            <button onclick="openDataSourceModal()" class="btn-outline-blue px-4 py-2 text-xs whitespace-nowrap">
+              Presets & Mapper
+            </button>
+          </div>
+        </div>
+
+        <!-- SUBVIEW A: SINGLE PROJECT DETAIL VIEW -->
+        <div id="project-single-detail-view" class="hidden mb-14">
+          <div class="wire-border-hero bg-[#14161b] p-5 sm:p-9 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <!-- Left Main Editable <img> Cover -->
+              <div class="lg:col-span-6">
+                <div class="w-full aspect-square wire-border editable-img-wrapper bg-[#18191c]">
+                  <img
+                    id="project-detail-main-img"
+                    src=""
+                    alt="Project Main Cover"
+                    onclick="handleImageClick('project-detail-main-img', 'Project Main Cover')"
+                  />
+                  <button
+                    type="button"
+                    onclick="openImageEditorModal('project-detail-main-img', 'Project Main Cover')"
+                    class="img-edit-badge"
+                  >
+                    Edit Cover Picture (img)
+                  </button>
+                </div>
+
+                <!-- Secondary Editable <img> Gallery Slots -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                  <div class="aspect-video wire-border editable-img-wrapper bg-[#18191c]">
+                    <img
+                      id="project-detail-sub-img-1"
+                      src=""
+                      alt="Project Architecture Preview"
+                      onclick="handleImageClick('project-detail-sub-img-1', 'Project Gallery Picture 1')"
+                    />
+                    <button
+                      type="button"
+                      onclick="openImageEditorModal('project-detail-sub-img-1', 'Project Gallery Picture 1')"
+                      class="img-edit-badge"
+                    >
+                      Edit Gallery 1
+                    </button>
+                  </div>
+                  <div class="aspect-video wire-border editable-img-wrapper bg-[#18191c]">
+                    <img
+                      id="project-detail-sub-img-2"
+                      src=""
+                      alt="Project Interface Preview"
+                      onclick="handleImageClick('project-detail-sub-img-2', 'Project Gallery Picture 2')"
+                    />
+                    <button
+                      type="button"
+                      onclick="openImageEditorModal('project-detail-sub-img-2', 'Project Gallery Picture 2')"
+                      class="img-edit-badge"
+                    >
+                      Edit Gallery 2
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Project Technical Breakdown -->
+              <div class="lg:col-span-6 flex flex-col justify-between">
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <span id="project-detail-category" class="px-3 py-1 wire-border text-[11px] text-[#3696eb]">
+                      Open Source / Systems
+                    </span>
+                    <button onclick="openEditCurrentProjectModal()" class="text-xs text-[#3696eb] hover:underline">
+                      ✎ Edit Project Details & Images
+                    </button>
+                  </div>
+
+                  <h1 id="project-detail-title" class="text-3xl sm:text-4xl font-light text-[#3696eb] mb-4">
+                    Oxydoo
+                  </h1>
+
+                  <p id="project-detail-description" class="text-sm text-[#2c7ec2] leading-relaxed mb-6">
+                    this is an open source tool written in ZIG that makes odoo dev easier and add oxygen to it through some concepts click it and learn mode about the project
+                  </p>
+
+                  <div class="wire-border bg-[#111318] p-4 mb-6">
+                    <h3 class="text-xs uppercase tracking-wider text-[#3696eb] mb-2">
+                      Engineering Architecture & Value Created
+                    </h3>
+                    <p id="project-detail-long-text" class="text-xs text-[#2c7ec2] leading-relaxed">
+                      Built from the ground up in Algeria by Mohammed (TXO R), this product focuses on high performance, developer velocity, and measurable business outcomes.
+                    </p>
+                  </div>
+
+                  <!-- Tech Stack Tags -->
+                  <div class="mb-6">
+                    <h4 class="text-xs uppercase tracking-wider text-[#266ca8] mb-2.5">Tech Stack & Specialities:</h4>
+                    <div id="project-detail-tags" class="flex flex-wrap gap-2">
+                      <!-- Populated dynamically -->
+                    </div>
+                  </div>
+
+                  <!-- Metrics Row -->
+                  <div id="project-detail-metrics" class="grid grid-cols-3 gap-3 mb-8">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+
+                <div class="pt-5 wire-divider-top flex flex-wrap items-center gap-3">
+                  <a id="project-detail-live-btn" href="#contact" onclick="openContactModal('Request Demo for ' + currentProjectId); return false;" class="btn-solid-blue px-6 py-2.5 text-xs">
+                    Request Live Demo / Source
+                  </a>
+                  <button onclick="openImageEditorModal('project-detail-main-img', 'Project Main Cover')" class="btn-outline-blue px-5 py-2.5 text-xs">
+                    Replace Project Picture
+                  </button>
+                  <button onclick="showProjectsDirectory()" class="btn-outline-blue px-5 py-2.5 text-xs">
+                    View All Projects
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBVIEW B: ALL PROJECTS FILTERABLE DIRECTORY -->
+        <div id="project-directory-section">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-7">
+            <h2 class="text-xl sm:text-2xl font-light text-[#2c7ec2]">
+              Project Directory (<span id="project-count-label">3</span>)
+            </h2>
+            <div id="project-category-filters" class="flex flex-wrap gap-2">
+              <!-- Category filter buttons -->
+            </div>
+          </div>
+
+          <div id="projects-page-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="w-full wire-divider-top bg-[#1A1A1A] mt-auto">
+    <div class="max-w-[1280px] mx-auto px-4 py-6 text-center">
+      <p class="text-[#3597DC] text-[12px] sm:text-[18px] font-light leading-relaxed max-w-[320px] sm:max-w-none mx-auto">
+        All Copyright reserved and kept under the strawberry license STRB-1 and refer to TXO R
+      </p>
+    </div>
+  </footer>
+
+  <div class="fixed bottom-4 right-4 z-50 flex flex-col items-end space-y-2">
+    <div id="edit-mode-hint" class="hidden wire-border bg-[#0d121c]/95 px-3.5 py-2 text-[11px] text-[#3696eb] shadow-lg max-w-[260px]">
+      Picture Edit Mode ON: Click any <code class="text-white">&lt;img&gt;</code> on the site to change its URL or upload a file.
+    </div>
+    <div class="flex items-center space-x-2 bg-[#0d1118]/95 wire-border-hero p-1.5 shadow-2xl backdrop-blur-md">
+      <button
+        id="toggle-edit-mode-btn"
+        onclick="togglePictureEditMode()"
+        class="btn-outline-blue px-3 py-1.5 text-[11px]"
+      >
+        ✎ Edit Pictures Mode: OFF
+      </button>
+      <button
+        onclick="openDataSourceModal()"
+        class="btn-solid-blue px-3 py-1.5 text-[11px]"
+      >
+        ⚡ Dynamic Projects API
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 1: EDIT PICTURE (<img> SRC / UPLOAD) -->
+  <!-- ========================================== -->
+  <div id="modal-image-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="wire-border-hero bg-[#13151a] max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 wire-divider-bottom mb-5">
+        <h3 id="img-modal-title" class="text-base font-light text-[#3696eb]">
+          Edit Picture (&lt;img&gt; Element)
+        </h3>
+        <button onclick="closeModal('modal-image-editor')" class="text-[#2c7ec2] hover:text-[#3696eb] text-sm px-2">
+          ✕
+        </button>
+      </div>
+
+      <!-- Current Preview -->
+      <div class="mb-5">
+        <p class="text-[11px] text-[#266ca8] mb-2">Live Standard <code class="text-[#3696eb]">&lt;img&gt;</code> Preview:</p>
+        <div class="w-40 h-40 mx-auto wire-border bg-[#18191c] overflow-hidden">
+          <img id="img-modal-preview" src="" alt="Preview" class="w-full h-full object-cover block" />
+        </div>
+      </div>
+
+      <!-- Option 1: Direct Image URL -->
+      <div class="mb-4">
+        <label class="block text-xs text-[#2c7ec2] mb-1.5">
+          1. Image URL / Path (Sets <code class="text-[#3696eb]">img.src</code> directly):
+        </label>
+        <input
+          id="img-modal-url-input"
+          type="text"
+          placeholder="https://example.com/my-picture.png or ./assets/photo.jpg"
+          class="w-full bg-[#0e1014] wire-border px-3.5 py-2 text-xs text-[#3696eb] focus:outline-none focus:border-[#3696eb]"
+          oninput="previewUrlInModal(this.value)"
+        />
+      </div>
+
+      <!-- Option 2: Upload Local Image File -->
+      <div class="mb-5">
+        <label class="block text-xs text-[#2c7ec2] mb-1.5">
+          2. Or Upload Picture from Your Device:
+        </label>
+        <input
+          id="img-modal-file-input"
+          type="file"
+          accept="image/*"
+          onchange="handleModalFileUpload(event)"
+          class="w-full text-xs text-[#2c7ec2] file:mr-3 file:py-1.5 file:px-4 file:border file:border-[#1e5a8a] file:bg-[#161920] file:text-[#3696eb] hover:file:border-[#3696eb] cursor-pointer"
+        />
+      </div>
+
+      <!-- Option 3: Quick Presets (Solid Dark Mockup Frame vs Generated Cyber Visual) -->
+      <div class="mb-6">
+        <p class="text-[11px] text-[#266ca8] mb-2">3. Quick Raster Presets:</p>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="applyPresetRaster('robot')" class="btn-outline-blue px-3 py-1 text-[11px]">
+            TXO R 3D Robot PNG
+          </button>
+          <button type="button" onclick="applyPresetRaster('dark-frame')" class="btn-outline-blue px-3 py-1 text-[11px]">
+            Minimal Dark Box PNG (Mockup Style)
+          </button>
+          <button type="button" onclick="applyPresetRaster('cyber-blueprint')" class="btn-outline-blue px-3 py-1 text-[11px]">
+            Cyber Blueprint PNG
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-4 wire-divider-top">
+        <button type="button" onclick="closeModal('modal-image-editor')" class="btn-outline-blue px-5 py-2 text-xs">
+          Cancel
+        </button>
+        <button type="button" onclick="saveImageModalChanges()" class="btn-solid-blue px-6 py-2 text-xs">
+          Save Picture
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 2: DYNAMIC PROJECT FETCHING ENGINE   -->
+  <!-- ========================================== -->
+  <div id="modal-data-source" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="wire-border-hero bg-[#13151a] max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 wire-divider-bottom mb-5">
+        <h3 class="text-base font-light text-[#3696eb]">
+          Dynamic Project Fetcher — Connect Any JSON Source or API
+        </h3>
+        <button onclick="closeModal('modal-data-source')" class="text-[#2c7ec2] hover:text-[#3696eb] text-sm px-2">
+          ✕
+        </button>
+      </div>
+
+      <!-- Preset Dynamic Sources -->
+      <div class="mb-6">
+        <label class="block text-xs text-[#3696eb] uppercase tracking-wider mb-2.5">
+          A. Instant Dynamic Feeds (1-Click Switch):
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button onclick="loadPresetFeed('default')" class="btn-outline-blue p-3 text-left flex flex-col items-start">
+            <span class="text-xs font-medium text-[#3696eb]">1. Original Mockup Feed</span>
+            <span class="text-[10.5px] text-[#266ca8] mt-1">Oxydoo, Colox, HUX.ai (Exact match)</span>
+          </button>
+          <button onclick="loadPresetFeed('algeria-ai')" class="btn-outline-blue p-3 text-left flex flex-col items-start">
+            <span class="text-xs font-medium text-[#3696eb]">2. TXO R Lab Extended (6)</span>
+            <span class="text-[10.5px] text-[#266ca8] mt-1">Oxydoo, Colox, HUX.ai + 3 Automation tools</span>
+          </button>
+          <button onclick="loadPresetFeed('Visual-cards')" class="btn-outline-blue p-3 text-left flex flex-col items-start">
+            <span class="text-xs font-medium text-[#3696eb]">3. Rendered Thumbnails</span>
+            <span class="text-[10.5px] text-[#266ca8] mt-1">Populates project &lt;img&gt; tags with previews</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- External REST API / JSON URL Fetcher -->
+      <div class="mb-6 pt-4 wire-divider-top">
+        <label class="block text-xs text-[#3696eb] uppercase tracking-wider mb-2">
+          B. Fetch from Any External JSON URL (`fetch()`):
+        </label>
+        <p class="text-[11px] text-[#2c7ec2] mb-3">
+          Enter any public JSON endpoint returning an array of items (or an object containing an array). Our dynamic mapper automatically extracts titles, descriptions, and image URLs.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-2.5 mb-3">
+          <input
+            id="api-endpoint-url"
+            type="text"
+            placeholder="https://your-api.com/projects.json"
+            class="flex-grow bg-[#0e1014] wire-border px-3.5 py-2 text-xs text-[#3696eb] focus:outline-none focus:border-[#3696eb]"
+          />
+          <button onclick="fetchProjectsFromCustomUrl()" class="btn-solid-blue px-5 py-2 text-xs whitespace-nowrap">
+            Fetch Live URL
+          </button>
+        </div>
+
+        <!-- Optional Field Mapping -->
+        <div class="grid grid-cols-3 gap-2.5 text-[11px]">
+          <div>
+            <span class="text-[#266ca8] block mb-1">Title Key:</span>
+            <input id="map-key-title" type="text" value="title,name" class="w-full bg-[#0e1014] wire-border px-2.5 py-1.5 text-xs text-[#2c7ec2]" />
+          </div>
+          <div>
+            <span class="text-[#266ca8] block mb-1">Description Key:</span>
+            <input id="map-key-desc" type="text" value="description,body,summary" class="w-full bg-[#0e1014] wire-border px-2.5 py-1.5 text-xs text-[#2c7ec2]" />
+          </div>
+          <div>
+            <span class="text-[#266ca8] block mb-1">Image URL Key:</span>
+            <input id="map-key-img" type="text" value="image,thumbnail,avatar_url" class="w-full bg-[#0e1014] wire-border px-2.5 py-1.5 text-xs text-[#2c7ec2]" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Raw JSON Editor / Importer -->
+      <div class="mb-5 pt-4 wire-divider-top">
+        <div class="flex items-center justify-between mb-2">
+          <label class="text-xs text-[#3696eb] uppercase tracking-wider">
+            C. Direct JSON Data Payload (Live Editable):
+          </label>
+          <button onclick="resetAllDataToDefault()" class="text-[11px] text-[#2c7ec2] hover:text-[#3696eb] underline">
+            Reset to Factory Defaults
+          </button>
+        </div>
+        <textarea
+          id="raw-projects-json-textarea"
+          rows="6"
+          class="w-full bg-[#0c0e12] wire-border p-3 font-mono text-[11px] text-[#3696eb] focus:outline-none focus:border-[#3696eb]"
+        ></textarea>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-4 wire-divider-top">
+        <button onclick="closeModal('modal-data-source')" class="btn-outline-blue px-5 py-2 text-xs">
+          Close
+        </button>
+        <button onclick="applyRawJsonProjects()" class="btn-solid-blue px-6 py-2 text-xs">
+          Apply JSON Payload
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 3: ADD / EDIT PROJECT MODAL          -->
+  <!-- ========================================== -->
+  <div id="modal-project-form" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="wire-border-hero bg-[#13151a] max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 wire-divider-bottom mb-5">
+        <h3 id="project-form-heading" class="text-base font-light text-[#3696eb]">
+          Add / Edit Project
+        </h3>
+        <button onclick="closeModal('modal-project-form')" class="text-[#2c7ec2] hover:text-[#3696eb] text-sm px-2">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Project Title:</label>
+          <input id="pf-title" type="text" placeholder="e.g. Oxydoo" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]" />
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Card Description (Shown on Home & Grid):</label>
+          <textarea id="pf-desc" rows="3" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]"></textarea>
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Picture URL (<code class="text-[#3696eb]">&lt;img src="..."&gt;</code>):</label>
+          <input id="pf-image" type="text" placeholder="Paste image URL or leave blank for clean dark frame" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[#2c7ec2] mb-1">Category:</label>
+            <input id="pf-category" type="text" placeholder="Developement / AI / UI/UX" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]" />
+          </div>
+          <div>
+            <label class="block text-[#2c7ec2] mb-1">Tech Stack (comma-separated):</label>
+            <input id="pf-tags" type="text" placeholder="Zig, Odoo, Python, AI" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Full Case Study / Deep Dive Text:</label>
+          <textarea id="pf-long" rows="3" class="w-full bg-[#0e1014] wire-border px-3 py-2 text-[#3696eb]"></textarea>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-5 mt-5 wire-divider-top">
+        <button id="pf-delete-btn" onclick="deleteEditingProject()" class="btn-outline-blue px-4 py-2 text-xs text-red-400 border-red-900/60 hidden">
+          Delete Project
+        </button>
+        <div class="flex items-center space-x-3 ml-auto">
+          <button onclick="closeModal('modal-project-form')" class="btn-outline-blue px-5 py-2 text-xs">
+            Cancel
+          </button>
+          <button onclick="saveProjectForm()" class="btn-solid-blue px-6 py-2 text-xs">
+            Save Project
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 4: CONTACT / HIRE ME MODAL           -->
+  <!-- ========================================== -->
+  <div id="modal-contact" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="wire-border-hero bg-[#13151a] max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 wire-divider-bottom mb-5">
+        <h3 id="contact-modal-title" class="text-base font-light text-[#3696eb]">
+          Work With TXO R (Mohammed)
+        </h3>
+        <button onclick="closeModal('modal-contact')" class="text-[#2c7ec2] hover:text-[#3696eb] text-sm px-2">
+          ✕
+        </button>
+      </div>
+
+      <form onsubmit="submitContactForm(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Your Name / Company:</label>
+          <input required type="text" placeholder="Enter your name" class="w-full bg-[#0e1014] wire-border px-3.5 py-2 text-[#3696eb] focus:outline-none focus:border-[#3696eb]" />
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Email or Telegram / WhatsApp:</label>
+          <input required type="text" placeholder="you@company.com" class="w-full bg-[#0e1014] wire-border px-3.5 py-2 text-[#3696eb] focus:outline-none focus:border-[#3696eb]" />
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Speciality Needed:</label>
+          <select id="contact-service-select" class="w-full bg-[#0e1014] wire-border px-3.5 py-2 text-[#3696eb] focus:outline-none focus:border-[#3696eb]">
+            <option value="Custom Money-Machine Product">Custom Money-Machine Product</option>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="UI/UX Design">UI/UX Design</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Social Media Marketing">Social Media Marketing</option>
+            <option value="Automation">Automation</option>
+            <option value="Integrations">Integrations</option>
+            <option value="Developement">Developement</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[#2c7ec2] mb-1">Project Brief:</label>
+          <textarea required rows="3" placeholder="Tell me about your product goals..." class="w-full bg-[#0e1014] wire-border px-3.5 py-2 text-[#3696eb] focus:outline-none focus:border-[#3696eb]"></textarea>
+        </div>
+        <div class="pt-2 flex items-center justify-end space-x-3">
+          <button type="button" onclick="closeModal('modal-contact')" class="btn-outline-blue px-5 py-2">
+            Cancel
+          </button>
+          <button type="submit" class="btn-solid-blue px-6 py-2">
+            Send Inquiry
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box (No alert() used) -->
+  <div id="toast-box" class="fixed top-16 right-4 z-50 wire-border-hero bg-[#0e131d] text-[#3696eb] px-4 py-2.5 text-xs shadow-2xl hidden transition-all">
+    <span id="toast-message">Action completed.</span>
+  </div>
+
+  <!-- STREAMING_CHUNK:Initializing raster PNG generator for default <img> pictures without using any SVGs -->
+  <script>
+    /* ==========================================================================
+       RASTER PNG GENERATOR FOR <IMG> TAGS (STRICTLY NO SVGS USED ANYWHERE)
+       Generates real data:image/png;base64 strings via HTML5 2D Canvas so every
+       single picture on the page is a genuine, editable <img> tag.
+       ========================================================================== */
+
+    function generateHeroRobotPngDataUrl() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 700;
+      canvas.height = 700;
+      const ctx = canvas.getContext('2d');
+
+      // 1. Deep navy/black studio background matching mockup
+      const bgGrad = ctx.createRadialGradient(350, 260, 40, 350, 350, 460);
+      bgGrad.addColorStop(0, '#0f1734');
+      bgGrad.addColorStop(0.55, '#080c1c');
+      bgGrad.addColorStop(1, '#04050a');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 700, 700);
+
+      // Helper for rounded rectangles
+      function drawRoundedRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+
+      // 2. Neck joint
+      const neckGrad = ctx.createLinearGradient(310, 330, 390, 330);
+      neckGrad.addColorStop(0, '#070709');
+      neckGrad.addColorStop(0.5, '#232429');
+      neckGrad.addColorStop(1, '#070709');
+      ctx.fillStyle = neckGrad;
+      drawRoundedRect(315, 325, 70, 60, 20);
+      ctx.fill();
+
+      // 3. 3D Robot Torso / Shoulders (Glossy charcoal-black)
+      ctx.save();
+      drawRoundedRect(175, 365, 350, 380, 145);
+      const torsoGrad = ctx.createRadialGradient(285, 420, 25, 350, 520, 260);
+      torsoGrad.addColorStop(0, '#2e3038');
+      torsoGrad.addColorStop(0.35, '#141519');
+      torsoGrad.addColorStop(0.8, '#070709');
+      torsoGrad.addColorStop(1, '#020203');
+      ctx.fillStyle = torsoGrad;
+      ctx.fill();
+
+      // Rim highlight on shoulders
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = 'rgba(130, 145, 180, 0.18)';
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. 3D Robot Spherical Head
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(350, 215, 122, 0, Math.PI * 2);
+      const headGrad = ctx.createRadialGradient(310, 155, 18, 350, 215, 125);
+      headGrad.addColorStop(0, '#383a44');
+      headGrad.addColorStop(0.35, '#17181d');
+      headGrad.addColorStop(0.78, '#08080b');
+      headGrad.addColorStop(1, '#020204');
+      ctx.fillStyle = headGrad;
+      ctx.fill();
+
+      // Subtle top-left specular rim on head
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = 'rgba(150, 165, 205, 0.22)';
+      ctx.stroke();
+      ctx.restore();
+
+      // 5. Glowing Purple Eyes
+      function drawGlowingEye(cx, cy) {
+        ctx.save();
+        ctx.shadowColor = '#a855f7';
+        ctx.shadowBlur = 28;
+        const eyeGrad = ctx.createRadialGradient(cx - 4, cy - 4, 2, cx, cy, 20);
+        eyeGrad.addColorStop(0, '#e9d5ff');
+        eyeGrad.addColorStop(0.35, '#a855f7');
+        eyeGrad.addColorStop(0.85, '#6b21a8');
+        eyeGrad.addColorStop(1, 'rgba(107, 33, 168, 0)');
+        ctx.fillStyle = eyeGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      drawGlowingEye(312, 198);
+      drawGlowingEye(388, 198);
+
+      // 6. Glowing Purple "TXO R" Chest Badge
+      ctx.save();
+      ctx.shadowColor = '#9333ea';
+      ctx.shadowBlur = 42;
+      const badgeGrad = ctx.createLinearGradient(255, 480, 445, 555);
+      badgeGrad.addColorStop(0, '#a855f7');
+      badgeGrad.addColorStop(0.5, '#7e22ce');
+      badgeGrad.addColorStop(1, '#9333ea');
+      ctx.fillStyle = badgeGrad;
+      drawRoundedRect(258, 482, 184, 72, 34);
+      ctx.fill();
+
+      // Inner bright core of chest badge
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#d8b4fe';
+      ctx.stroke();
+      ctx.restore();
+
+      // "TXO R" Chest Text
+      ctx.save();
+      ctx.fillStyle = '#090414';
+      ctx.font = '800 37px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('TXO R', 350, 519);
+      ctx.restore();
+
+      return canvas.toDataURL('image/png');
+    }
+
+    function generateCardRasterPng(mode, titleText, subtitleText) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+
+      // Solid dark charcoal base matching the exact SVG project squares (#1A1A1A)
+      ctx.fillStyle = '#1A1A1A';
+      ctx.fillRect(0, 0, 600, 600);
+
+      if (mode === 'dark-frame') {
+        // Pure minimal dark surface just like the SVG screenshot
+        return canvas.toDataURL('image/png');
+      }
+
+      // Subtle cyber blueprint raster artwork for Service / Visual mode
+      const grad = ctx.createRadialGradient(300, 260, 30, 300, 300, 360);
+      grad.addColorStop(0, '#1f2b3d');
+      grad.addColorStop(0.6, '#1A1A1A');
+      grad.addColorStop(1, '#141414');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 600, 600);
+
+      // Subtle grid lines
+      ctx.strokeStyle = 'rgba(53, 151, 220, 0.2)';
+      ctx.lineWidth = 1;
+      for (let i = 60; i < 600; i += 60) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, 600);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(600, i);
+        ctx.stroke();
+      }
+
+      // Center geometric frame
+      ctx.strokeStyle = '#3597DC';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(110, 160, 380, 260);
+
+      // Corner accents
+      ctx.fillStyle = '#3597DC';
+      ctx.fillRect(106, 156, 10, 10);
+      ctx.fillRect(484, 156, 10, 10);
+      ctx.fillRect(106, 414, 10, 10);
+      ctx.fillRect(484, 414, 10, 10);
+
+      // Title inside raster image
+      ctx.fillStyle = '#3597DC';
+      ctx.font = '300 38px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(titleText || 'TXO R', 300, 285);
+
+      ctx.fillStyle = '#3597DC';
+      ctx.font = '400 16px Inter, sans-serif';
+      ctx.fillText(subtitleText || 'SYSTEM ARCHITECTURE', 300, 325);
+
+      return canvas.toDataURL('image/png');
+    }
+
+    const DEFAULT_SERVICES = [
+      {
+        id: 'graphic-design',
+        name: 'Graphic Design',
+        tagline: 'High-impact brand identities, visual systems, and digital assets engineered to command attention and convert.',
+        price: 'Starting at $350 / Custom Package',
+        deliverables: [
+          'Complete Brand Identity & Logo Systems',
+          'High-CTR Ad Creatives & Social Visuals',
+          'Product Packaging & Pitch Deck Design',
+          'Print & Digital Brand Guidelines'
+        ],
+        image: ''
+      },
+      {
+        id: 'ui-ux-design',
+        name: 'UI/UX Design',
+        tagline: 'Wireframes, dark-mode cyber interfaces, and conversion-optimized SaaS & mobile product experiences.',
+        price: 'Starting at $500 / Full Product UI',
+        deliverables: [
+          'Interactive Wireframes & User Flows',
+          'Pixel-Perfect Design Systems',
+          'Mobile & Web Application Interfaces',
+          'Conversion Rate & Usability Audits'
+        ],
+        image: ''
+      },
+      {
+        id: 'marketing',
+        name: 'Marketing',
+        tagline: 'Full-funnel growth architecture, go-to-market positioning, and customer acquisition engines that generate real money.',
+        price: 'Custom Growth Retainer',
+        deliverables: [
+          'Go-To-Market Product Strategy',
+          'High-Converting Sales Funnels',
+          'Performance Analytics & Attribution',
+          'Offer Creation & Copywriting'
+        ],
+        image: ''
+      },
+      {
+        id: 'social-media-marketing',
+        name: 'Social Media Marketing',
+        tagline: 'Viral content systems, audience growth campaigns, and localized market scaling for brands and startups.',
+        price: 'Monthly Campaign Management',
+        deliverables: [
+          'Content Strategy & Production Calendar',
+          'Paid Social Ad Scaling (Meta / TikTok / X)',
+          'Community Engagement & Lead Capture',
+          'Monthly ROI & Growth Reporting'
+        ],
+        image: ''
+      },
+      {
+        id: 'automation',
+        name: 'Automation',
+        tagline: 'Eliminate repetitive manual work with AI agents, custom workflows, and autonomous business pipelines.',
+        price: 'Custom Workflow Engineering',
+        deliverables: [
+          'AI Sales & Support Agents (like HUX.ai)',
+          'End-to-End CRM & Lead Automation',
+          'Custom Python / Zig / Node Scrapers & Bots',
+          'Automated Reporting & Invoicing Pipelines'
+        ],
+        image: ''
+      },
+      {
+        id: 'integrations',
+        name: 'Integrations',
+        tagline: 'Seamlessly connect Odoo, ERPs, payment gateways, APIs, and custom microservices into one unified system.',
+        price: 'Per-Integration or System Scope',
+        deliverables: [
+          'Odoo ERP Custom Modules & Connectors',
+          'REST / GraphQL / Webhook API Bridges',
+          'Payment & Algerian Local Market Gateways',
+          'Database Sync & Legacy Migration'
+        ],
+        image: ''
+      },
+      {
+        id: 'developement',
+        name: 'Developement',
+        tagline: 'High-speed software engineering in Zig, Python, TypeScript, and modern web stacks built to scale effortlessly.',
+        price: 'Full-Stack / Systems Engineering',
+        deliverables: [
+          'Full-Stack Web & SaaS Applications',
+          'Systems Tools & CLI Utilities in Zig',
+          'Custom AI & Machine Learning Products',
+          'High-Performance Backend Architecture'
+        ],
+        image: ''
+      }
+    ];
+
+    const DEFAULT_PROJECTS = [
+      {
+        id: 'oxydoo',
+        title: 'Oxydoo',
+        description: 'this is an open source tool written in ZIG that makes odoo dev easier and add oxygen to it through some concepts click it and learn mode about the project',
+        category: 'Developement',
+        tags: ['Zig', 'Odoo ERP', 'Open Source', 'CLI Tooling', 'Systems'],
+        image: '',
+        gallery1: '',
+        gallery2: '',
+        longDescription: 'Oxydoo is a high-performance open-source developer tool written in Zig designed to supercharge Odoo ERP development. It introduces fast scaffolding, instant environment orchestration, and streamlined module workflows so engineering teams can ship Odoo solutions in a fraction of the time.',
+        metrics: [
+          { label: 'Core Language', value: 'Zig' },
+          { label: 'License', value: 'Open Source' },
+          { label: 'Speedup', value: '10x Dev Flow' }
+        ]
+      },
+      {
+        id: 'colox',
+        title: 'Colox',
+        description: 'this is an open source app that helps you choose colors for your next project based on color meaning in term of feeling',
+        category: 'UI/UX Design',
+        tags: ['Color Psychology', 'UI/UX Design', 'Open Source', 'Web App'],
+        image: '',
+        gallery1: '',
+        gallery2: '',
+        longDescription: 'Colox bridges color psychology and digital product design. Instead of picking random hex codes, designers and founders select the exact emotional response and feeling they want their product to evoke, and Colox generates harmonious, accessible palettes tailored to that mood.',
+        metrics: [
+          { label: 'Focus', value: 'Color Feeling' },
+          { label: 'Type', value: 'Open Source App' },
+          { label: 'Target', value: 'Designers & Devs' }
+        ]
+      },
+      {
+        id: 'hux-ai',
+        title: 'HUX.ai',
+        description: 'this is an an AI sales man that i made to suit the algerian market and help businesses scale and operate in the market with ease',
+        category: 'Automation',
+        tags: ['AI Sales Agent', 'Algerian Market', 'Automation', 'NLP / LLM'],
+        image: '',
+        gallery1: '',
+        gallery2: '',
+        longDescription: 'HUX.ai is an intelligent AI salesperson purpose-built for the Algerian market. Capable of understanding local nuances, Darja/French/Arabic inquiries, product catalogs, and order confirmation workflows, HUX.ai helps businesses automate customer conversion 24/7 and scale effortlessly.',
+        metrics: [
+          { label: 'Market', value: 'Algeria (DZ)' },
+          { label: 'Role', value: 'AI Salesman' },
+          { label: 'Operation', value: '24/7 Autonomous' }
+        ]
+      }
+    ];
+
+    // Extended preset feed for demonstrating dynamic project fetching
+    const EXTENDED_ALGERIA_FEED = [
+      ...DEFAULT_PROJECTS,
+      {
+        id: 'dz-pay-bridge',
+        title: 'DZPayFlow',
+        description: 'automated payment and order reconciliation bridge connecting Algerian e-commerce stores directly with local delivery and ERP pipelines',
+        category: 'Integrations',
+        tags: ['Integrations', 'E-Commerce DZ', 'Automation', 'API'],
+        image: '',
+        longDescription: 'DZPayFlow automates cash-on-delivery confirmation, courier syncing, and ERP accounting for high-volume Algerian merchants.'
+      },
+      {
+        id: 'strawb-engine',
+        title: 'StrawbUI',
+        description: 'minimalist dark wireframe component system crafted under the strawberry license STRB-1 for ultra-fast technical portfolios and SaaS dashboards',
+        category: 'Graphic Design',
+        tags: ['UI/UX Design', 'Design System', 'STRB-1'],
+        image: '',
+        longDescription: 'A razor-sharp dark-mode design system featuring electric cyan-blue borders and zero-bloat typography.'
+      },
+      {
+        id: 'growth-pulse',
+        title: 'PulseFunnel',
+        description: 'automated social media marketing and lead scoring machine that turns organic content engagement into qualified sales calls',
+        category: 'Marketing',
+        tags: ['Marketing', 'Social Media Marketing', 'Lead Gen'],
+        image: '',
+        longDescription: 'Combines creative testing metrics with automated DM follow-ups to maximize return on ad spend.'
+      }
+    ];
+
+    let appState = {
+      heroImage: '',
+      services: [],
+      projects: [],
+      activeSourceLabel: 'Default TXO R Projects',
+      editMode: false
+    };
+
+    let currentView = 'home';
+    let currentServiceId = 'graphic-design';
+    let currentProjectId = 'oxydoo';
+    let activeProjectCategory = 'All';
+    let editingImageTargetId = null;
+    let editingProjectId = null;
+
+    function initApp() {
+      // Generate default raster PNGs
+      const defaultRobotPng = generateHeroRobotPngDataUrl();
+      const defaultDarkSquarePng = generateCardRasterPng('dark-frame', '', '');
+
+      // Load saved state or initialize defaults
+      try {
+        const saved = localStorage.getItem('txor_portfolio_state_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          appState.heroImage = parsed.heroImage || defaultRobotPng;
+          appState.services = parsed.services && parsed.services.length ? parsed.services : JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+          appState.projects = parsed.projects && parsed.projects.length ? parsed.projects : JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+          appState.activeSourceLabel = parsed.activeSourceLabel || 'Default TXO R Projects';
+        } else {
+          appState.heroImage = defaultRobotPng;
+          appState.services = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+          appState.projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+        }
+      } catch (err) {
+        appState.heroImage = defaultRobotPng;
+        appState.services = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+        appState.projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+      }
+
+      // Ensure every service and project has a valid raster <img> src
+      appState.services.forEach(s => {
+        if (!s.image) {
+          s.image = generateCardRasterPng('cyber-blueprint', s.name, 'TXO R SERVICE');
+        }
+      });
+
+      appState.projects.forEach(p => {
+        if (!p.image) {
+          p.image = defaultDarkSquarePng;
+        }
+        if (!p.gallery1) {
+          p.gallery1 = generateCardRasterPng('cyber-blueprint', p.title, 'ARCHITECTURE VIEW');
+        }
+        if (!p.gallery2) {
+          p.gallery2 = generateCardRasterPng('cyber-blueprint', p.title, 'INTERFACE MODULE');
+        }
+      });
+
+      // Set Hero <img> src
+      const heroImgEl = document.getElementById('hero-avatar-img');
+      if (heroImgEl) {
+        heroImgEl.src = appState.heroImage;
+      }
+
+      renderAll();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('txor_portfolio_state_v1', JSON.stringify(appState));
+      } catch (e) {
+        // Ignore quota errors if large local files uploaded
+      }
+    }
+
+    function renderAll() {
+      const heroImgEl = document.getElementById('hero-avatar-img');
+      if (heroImgEl && appState.heroImage) {
+        heroImgEl.src = appState.heroImage;
+      }
+
+      const sourceBadge = document.getElementById('active-source-badge');
+      if (sourceBadge) {
+        sourceBadge.textContent = 'Source: ' + appState.activeSourceLabel;
+      }
+
+      renderHomeServicesButtons();
+      renderHomeProjectsGrid();
+      renderServicePage();
+      renderProjectPage();
+    }
+
+    function renderHomeServicesButtons() {
+      const container = document.getElementById('home-services-buttons');
+      if (!container) return;
+
+      // Note: On mobile (image_a1005b.png), Integrations is placed last so it centers at the bottom of the 2-column grid
+      const isMobile = window.innerWidth < 900;
+      let orderedServices = [...appState.services];
+      if (isMobile) {
+        const integrationsIdx = orderedServices.findIndex(s => s.name === 'Integrations');
+        if (integrationsIdx !== -1 && integrationsIdx !== orderedServices.length - 1) {
+          const [intItem] = orderedServices.splice(integrationsIdx, 1);
+          orderedServices.push(intItem);
+        }
+      }
+
+      container.innerHTML = orderedServices.map(service => `
+        <button
+          type="button"
+          onclick="openServiceDetail('${service.id}')"
+          class="service-btn-item btn-outline-blue text-[12px] sm:text-[15px] px-2 py-1.5 min-w-[115px] min-h-[44px] text-center leading-[1.15]"
+        >
+          ${escapeHtml(service.name)}
+        </button>
+      `).join('');
+    }
+
+    function renderHomeProjectsGrid() {
+      const grid = document.getElementById('home-projects-grid');
+      if (!grid) return;
+
+      grid.innerHTML = appState.projects.map((proj, idx) => {
+        const imgDomId = `home-proj-img-${proj.id || idx}`;
+        return `
+          <article class="flex flex-col">
+            <!-- Square bordered container (341x341 proportion) holding standard <img> tag -->
+            <div class="w-full aspect-square wire-border editable-img-wrapper mb-4">
+              <img
+                id="${imgDomId}"
+                class="project-img"
+                src="${proj.image}"
+                alt="${escapeHtml(proj.title)}"
+                onclick="handleProjectCardImageClick('${proj.id}', '${imgDomId}')"
+              />
+              <button
+                type="button"
+                onclick="openImageEditorModal('${imgDomId}', '${escapeHtml(proj.title)} Thumbnail', '${proj.id}')"
+                class="img-edit-badge"
+              >
+                Edit Picture (img)
+              </button>
+            </div>
+
+            <!-- Project Title -->
+            <h3 class="text-[#3597DC] text-2xl sm:text-[36px] font-light tracking-wide leading-tight mb-3">
+              ${escapeHtml(proj.title)}
+            </h3>
+
+            <!-- Project Description -->
+            <p class="text-[#3597DC] text-[12.5px] sm:text-[16px] leading-[1.38] mb-6 flex-grow font-light">
+              ${escapeHtml(proj.description)}
+            </p>
+
+            <!-- Outlined Learn More Button (131x44 matching SVG) -->
+            <div>
+              <button
+                type="button"
+                onclick="openProjectDetail('${proj.id}')"
+                class="btn-outline-blue text-[14px] sm:text-[15px] w-[131px] h-[44px]"
+              >
+                Learn More
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderServicePage() {
+      const tabsContainer = document.getElementById('service-page-tabs');
+      if (!tabsContainer) return;
+
+      const activeService = appState.services.find(s => s.id === currentServiceId) || appState.services[0];
+      if (!activeService) return;
+
+      // Render service tabs
+      tabsContainer.innerHTML = appState.services.map(s => `
+        <button
+          type="button"
+          onclick="openServiceDetail('${s.id}')"
+          class="btn-outline-blue px-4 py-2 text-xs ${s.id === activeService.id ? 'active-pill' : ''}"
+        >
+          ${escapeHtml(s.name)}
+        </button>
+      `).join('');
+
+      // Populate active service hero
+      const idx = appState.services.findIndex(s => s.id === activeService.id) + 1;
+      document.getElementById('service-detail-badge').textContent = `TXO R SPECIALITY #0${idx}`;
+      document.getElementById('service-detail-title').textContent = activeService.name;
+      document.getElementById('service-detail-summary').textContent = activeService.tagline;
+      document.getElementById('service-detail-price').textContent = activeService.price || 'Custom Quote';
+
+      const delivList = document.getElementById('service-detail-deliverables');
+      delivList.innerHTML = (activeService.deliverables || []).map(item => `
+        <li class="wire-border bg-[#101217] px-3.5 py-2.5 flex items-center space-x-2">
+          <span class="text-[#3696eb] font-bold">▪</span>
+          <span>${escapeHtml(item)}</span>
+        </li>
+      `).join('');
+
+      const showcaseImg = document.getElementById('service-showcase-img');
+      if (showcaseImg) {
+        showcaseImg.src = activeService.image;
+        showcaseImg.dataset.serviceId = activeService.id;
+      }
+
+      // Workflow steps
+      const workflowEl = document.getElementById('service-workflow-steps');
+      const steps = [
+        { step: '01', title: 'Discovery & Audit', desc: 'We analyze your business model, bottlenecks, and revenue targets.' },
+        { step: '02', title: 'Architecture & Wireframe', desc: 'Designing clean, high-converting systems and visual prototypes.' },
+        { step: '03', title: 'Execution & Engineering', desc: 'Rapid implementation using modern tools, Zig/Python/Web, or design suites.' },
+        { step: '04', title: 'Launch & Scale', desc: 'Deploying your money-machine product with full documentation and support.' }
+      ];
+      workflowEl.innerHTML = steps.map(st => `
+        <div class="wire-border bg-[#14161b] p-5">
+          <span class="text-xs font-mono text-[#3696eb] block mb-1">STEP ${st.step}</span>
+          <h4 class="text-base font-light text-[#3696eb] mb-2">${st.title}</h4>
+          <p class="text-xs text-[#2c7ec2] leading-relaxed">${st.desc}</p>
+        </div>
+      `).join('');
+
+      // All services catalog grid with individual editable <img> tags
+      const allGrid = document.getElementById('all-services-cards-grid');
+      allGrid.innerHTML = appState.services.map(s => {
+        const cardImgId = `service-card-img-${s.id}`;
+        return `
+          <div class="wire-border bg-[#14161b] p-5 flex flex-col justify-between">
+            <div>
+              <div class="w-full aspect-video wire-border editable-img-wrapper mb-4">
+                <img
+                  id="${cardImgId}"
+                  src="${s.image}"
+                  alt="${escapeHtml(s.name)}"
+                  onclick="openServiceDetail('${s.id}')"
+                />
+                <button
+                  type="button"
+                  onclick="openImageEditorModal('${cardImgId}', '${escapeHtml(s.name)} Picture', null, '${s.id}')"
+                  class="img-edit-badge"
+                >
+                  Edit Picture (img)
+                </button>
+              </div>
+              <h3 class="text-xl font-light text-[#3696eb] mb-2">${escapeHtml(s.name)}</h3>
+              <p class="text-xs text-[#2c7ec2] leading-relaxed mb-4">${escapeHtml(s.tagline)}</p>
+            </div>
+            <div class="flex items-center justify-between pt-3 wire-divider-top">
+              <button onclick="openServiceDetail('${s.id}')" class="btn-outline-blue px-4 py-1.5 text-xs">
+                Explore Service
+              </button>
+              <button onclick="openContactModal('Inquiry: ${escapeHtml(s.name)}')" class="btn-solid-blue px-4 py-1.5 text-xs">
+                Hire Me
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderProjectPage() {
+      const countLabel = document.getElementById('project-count-label');
+      if (countLabel) countLabel.textContent = appState.projects.length;
+
+      // Category filters
+      const categories = ['All', ...new Set(appState.projects.map(p => p.category || 'Developement'))];
+      const filterContainer = document.getElementById('project-category-filters');
+      if (filterContainer) {
+        filterContainer.innerHTML = categories.map(cat => `
+          <button
+            type="button"
+            onclick="filterProjectsByCategory('${escapeHtml(cat)}')"
+            class="btn-outline-blue px-3.5 py-1 text-xs ${activeProjectCategory === cat ? 'active-pill' : ''}"
+          >
+            ${escapeHtml(cat)}
+          </button>
+        `).join('');
+      }
+
+      // Filtered projects grid
+      const filtered = activeProjectCategory === 'All'
+        ? appState.projects
+        : appState.projects.filter(p => (p.category || 'Developement') === activeProjectCategory);
+
+      const pageGrid = document.getElementById('projects-page-grid');
+      if (pageGrid) {
+        pageGrid.innerHTML = filtered.map((proj, idx) => {
+          const domImgId = `proj-dir-img-${proj.id || idx}`;
+          return `
+            <article class="wire-border bg-[#14161b] p-5 flex flex-col justify-between">
+              <div>
+                <div class="w-full aspect-square wire-border editable-img-wrapper mb-4">
+                  <img
+                    id="${domImgId}"
+                    src="${proj.image}"
+                    alt="${escapeHtml(proj.title)}"
+                    onclick="openProjectDetail('${proj.id}')"
+                  />
+                  <button
+                    type="button"
+                    onclick="openImageEditorModal('${domImgId}', '${escapeHtml(proj.title)} Picture', '${proj.id}')"
+                    class="img-edit-badge"
+                  >
+                    Edit Picture (img)
+                  </button>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-[#266ca8] mb-1.5">
+                  <span>${escapeHtml(proj.category || 'Developement')}</span>
+                  <span>#${idx + 1}</span>
+                </div>
+                <h3 class="text-2xl font-light text-[#3696eb] mb-2">${escapeHtml(proj.title)}</h3>
+                <p class="text-xs text-[#2c7ec2] leading-relaxed mb-4">${escapeHtml(proj.description)}</p>
+              </div>
+              <div class="pt-4 wire-divider-top flex items-center justify-between">
+                <button onclick="openProjectDetail('${proj.id}')" class="btn-outline-blue px-4 py-1.5 text-xs">
+                  Open Case Study
+                </button>
+                <button onclick="openEditProjectModalById('${proj.id}')" class="text-xs text-[#2c7ec2] hover:text-[#3696eb]">
+                  ✎ Edit
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      // Update Single Project Detail View if active
+      const activeProj = appState.projects.find(p => p.id === currentProjectId) || appState.projects[0];
+      if (activeProj) {
+        document.getElementById('project-detail-title').textContent = activeProj.title;
+        document.getElementById('project-detail-category').textContent = activeProj.category || 'Developement';
+        document.getElementById('project-detail-description').textContent = activeProj.description;
+        document.getElementById('project-detail-long-text').textContent = activeProj.longDescription || activeProj.description;
+
+        const mainImg = document.getElementById('project-detail-main-img');
+        if (mainImg) {
+          mainImg.src = activeProj.image;
+          mainImg.dataset.projectId = activeProj.id;
+        }
+
+        const sub1 = document.getElementById('project-detail-sub-img-1');
+        if (sub1) {
+          sub1.src = activeProj.gallery1 || generateCardRasterPng('cyber-blueprint', activeProj.title, 'MODULE 01');
+          sub1.dataset.projectId = activeProj.id;
+        }
+
+        const sub2 = document.getElementById('project-detail-sub-img-2');
+        if (sub2) {
+          sub2.src = activeProj.gallery2 || generateCardRasterPng('cyber-blueprint', activeProj.title, 'MODULE 02');
+          sub2.dataset.projectId = activeProj.id;
+        }
+
+        const tagsEl = document.getElementById('project-detail-tags');
+        const tags = activeProj.tags && activeProj.tags.length ? activeProj.tags : ['TXO R', 'Algeria', 'Production'];
+        tagsEl.innerHTML = tags.map(t => `
+          <span class="px-3 py-1 wire-border bg-[#101216] text-xs text-[#3696eb]">${escapeHtml(t)}</span>
+        `).join('');
+
+        const metricsEl = document.getElementById('project-detail-metrics');
+        const metrics = activeProj.metrics && activeProj.metrics.length ? activeProj.metrics : [
+          { label: 'Creator', value: 'TXO R' },
+          { label: 'License', value: 'STRB-1 / OSS' },
+          { label: 'Status', value: 'Production' }
+        ];
+        metricsEl.innerHTML = metrics.map(m => `
+          <div class="wire-border bg-[#101216] p-3 text-center">
+            <span class="text-[10.5px] text-[#266ca8] block">${escapeHtml(m.label)}</span>
+            <span class="text-sm font-semibold text-[#3696eb]">${escapeHtml(m.value)}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function navigateTo(view, sectionAnchor) {
+      currentView = view;
+      document.getElementById('view-home').classList.toggle('hidden', view !== 'home');
+      document.getElementById('view-services').classList.toggle('hidden', view !== 'services');
+      document.getElementById('view-projects').classList.toggle('hidden', view !== 'projects');
+
+      if (view === 'home' && sectionAnchor) {
+        const target = document.getElementById(sectionAnchor);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openServiceDetail(serviceId) {
+      currentServiceId = serviceId;
+      renderServicePage();
+      navigateTo('services');
+    }
+
+    function openProjectDetail(projectId) {
+      currentProjectId = projectId;
+      renderProjectPage();
+      document.getElementById('project-single-detail-view').classList.remove('hidden');
+      const bc = document.getElementById('project-breadcrumb-current');
+      const proj = appState.projects.find(p => p.id === projectId);
+      if (bc && proj) {
+        bc.textContent = '/ ' + proj.title;
+        bc.classList.remove('hidden');
+      }
+      navigateTo('projects');
+    }
+
+    function showProjectsDirectory() {
+      document.getElementById('project-single-detail-view').classList.add('hidden');
+      const bc = document.getElementById('project-breadcrumb-current');
+      if (bc) bc.classList.add('hidden');
+      navigateTo('projects');
+    }
+
+    function filterProjectsByCategory(cat) {
+      activeProjectCategory = cat;
+      renderProjectPage();
+    }
+
+    function togglePictureEditMode() {
+      appState.editMode = !appState.editMode;
+      document.body.classList.toggle('edit-mode-active', appState.editMode);
+      const btn = document.getElementById('toggle-edit-mode-btn');
+      const hint = document.getElementById('edit-mode-hint');
+      if (btn) {
+        btn.textContent = appState.editMode ? '✎ Edit Pictures Mode: ON' : '✎ Edit Pictures Mode: OFF';
+        btn.classList.toggle('active-pill', appState.editMode);
+      }
+      if (hint) {
+        hint.classList.toggle('hidden', !appState.editMode);
+      }
+      showToast(appState.editMode
+        ? 'Picture Edit Mode enabled! Click any <img> to change its image.'
+        : 'Picture Edit Mode disabled.');
+    }
+
+    function handleImageClick(imgDomId, label) {
+      if (appState.editMode) {
+        openImageEditorModal(imgDomId, label);
+      }
+    }
+
+    function handleProjectCardImageClick(projectId, imgDomId) {
+      if (appState.editMode) {
+        openImageEditorModal(imgDomId, 'Project Picture', projectId);
+      } else {
+        openProjectDetail(projectId);
+      }
+    }
+
+    let modalProjectBindId = null;
+    let modalServiceBindId = null;
+
+    function openImageEditorModal(imgDomId, label, projectId = null, serviceId = null) {
+      editingImageTargetId = imgDomId;
+      modalProjectBindId = projectId || (imgDomId === 'project-detail-main-img' ? currentProjectId : null);
+      modalServiceBindId = serviceId || (imgDomId === 'service-showcase-img' ? currentServiceId : null);
+
+      const targetImg = document.getElementById(imgDomId);
+      const currentSrc = targetImg ? targetImg.getAttribute('src') : '';
+
+      document.getElementById('img-modal-title').textContent = `Edit Picture: ${label}`;
+      document.getElementById('img-modal-preview').src = currentSrc;
+      document.getElementById('img-modal-url-input').value = currentSrc.startsWith('data:') ? '' : currentSrc;
+      document.getElementById('img-modal-file-input').value = '';
+
+      openModal('modal-image-editor');
+    }
+
+    function previewUrlInModal(url) {
+      if (url && url.trim()) {
+        document.getElementById('img-modal-preview').src = url.trim();
+      }
+    }
+
+    function handleModalFileUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('img-modal-preview').src = e.target.result;
+        document.getElementById('img-modal-url-input').value = '';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function applyPresetRaster(presetType) {
+      let dataUrl = '';
+      if (presetType === 'robot') {
+        dataUrl = generateHeroRobotPngDataUrl();
+      } else if (presetType === 'dark-frame') {
+        dataUrl = generateCardRasterPng('dark-frame', '', '');
+      } else {
+        dataUrl = generateCardRasterPng('cyber-blueprint', 'TXO R', 'CUSTOM MODULE');
+      }
+      document.getElementById('img-modal-preview').src = dataUrl;
+      document.getElementById('img-modal-url-input').value = '';
+    }
+
+    function saveImageModalChanges() {
+      const newSrc = document.getElementById('img-modal-preview').src;
+      if (!newSrc) return;
+
+      // Update target <img> in DOM immediately
+      if (editingImageTargetId) {
+        const el = document.getElementById(editingImageTargetId);
+        if (el) el.src = newSrc;
+      }
+
+      // Persist in state
+      if (editingImageTargetId === 'hero-avatar-img') {
+        appState.heroImage = newSrc;
+      } else if (editingImageTargetId === 'project-detail-sub-img-1') {
+        const p = appState.projects.find(x => x.id === currentProjectId);
+        if (p) p.gallery1 = newSrc;
+      } else if (editingImageTargetId === 'project-detail-sub-img-2') {
+        const p = appState.projects.find(x => x.id === currentProjectId);
+        if (p) p.gallery2 = newSrc;
+      } else if (modalProjectBindId) {
+        const p = appState.projects.find(x => x.id === modalProjectBindId);
+        if (p) p.image = newSrc;
+      } else if (modalServiceBindId) {
+        const s = appState.services.find(x => x.id === modalServiceBindId);
+        if (s) s.image = newSrc;
+      }
+
+      saveState();
+      renderAll();
+      closeModal('modal-image-editor');
+      showToast('Picture (<img src>) updated and saved!');
+    }
+
+    function openDataSourceModal() {
+      const rawTextarea = document.getElementById('raw-projects-json-textarea');
+      if (rawTextarea) {
+        rawTextarea.value = JSON.stringify(appState.projects.map(p => ({
+          id: p.id,
+          title: p.title,
+          description: p.description,
+          category: p.category,
+          tags: p.tags,
+          image: p.image.startsWith('data:') ? '[Raster PNG Data URL]' : p.image
+        })), null, 2);
+      }
+      openModal('modal-data-source');
+    }
+
+    function loadPresetFeed(presetName) {
+      const darkPng = generateCardRasterPng('dark-frame', '', '');
+      if (presetName === 'default') {
+        appState.projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS)).map(p => ({
+          ...p,
+          image: darkPng,
+          gallery1: generateCardRasterPng('cyber-blueprint', p.title, 'ARCHITECTURE'),
+          gallery2: generateCardRasterPng('cyber-blueprint', p.title, 'INTERFACE')
+        }));
+        appState.activeSourceLabel = 'Original Mockup Feed (3)';
+      } else if (presetName === 'algeria-ai') {
+        appState.projects = JSON.parse(JSON.stringify(EXTENDED_ALGERIA_FEED)).map(p => ({
+          ...p,
+          image: darkPng,
+          gallery1: generateCardRasterPng('cyber-blueprint', p.title, 'ARCHITECTURE'),
+          gallery2: generateCardRasterPng('cyber-blueprint', p.title, 'INTERFACE')
+        }));
+        appState.activeSourceLabel = 'TXO R Extended Lab Feed (6)';
+      } else if (presetName === 'Visual-cards') {
+        appState.projects = appState.projects.map(p => ({
+          ...p,
+          image: generateCardRasterPng('cyber-blueprint', p.title, p.category || 'TXO R PROJECT')
+        }));
+        appState.activeSourceLabel = 'Rendered Blueprint Thumbnails';
+      }
+
+      saveState();
+      renderAll();
+      closeModal('modal-data-source');
+      showToast(`Loaded dynamic feed: ${appState.activeSourceLabel}`);
+    }
+
+    async function quickFetchFromInput() {
+      const urlInput = document.getElementById('quick-fetch-url-input');
+      if (!urlInput || !urlInput.value.trim()) {
+        openDataSourceModal();
+        return;
+      }
+      document.getElementById('api-endpoint-url').value = urlInput.value.trim();
+      await fetchProjectsFromCustomUrl();
+    }
+
+    async function fetchProjectsFromCustomUrl() {
+      const url = document.getElementById('api-endpoint-url').value.trim();
+      if (!url) {
+        showToast('Please enter a valid JSON URL to fetch from.');
+        return;
+      }
+
+      const titleKeys = document.getElementById('map-key-title').value.split(',').map(k => k.trim());
+      const descKeys = document.getElementById('map-key-desc').value.split(',').map(k => k.trim());
+      const imgKeys = document.getElementById('map-key-img').value.split(',').map(k => k.trim());
+
+      showToast('Fetching projects from remote source...');
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const rawData = await response.json();
+        const itemsArray = Array.isArray(rawData)
+          ? rawData
+          : (rawData.projects || rawData.data || rawData.items || rawData.repos || []);
+
+        if (!Array.isArray(itemsArray) || itemsArray.length === 0) {
+          throw new Error('No project array found in JSON response.');
+        }
+
+        const fallbackImg = generateCardRasterPng('dark-frame', '', '');
+
+        const mappedProjects = itemsArray.slice(0, 12).map((item, idx) => {
+          const titleVal = pickFirstKey(item, titleKeys) || `Project #${idx + 1}`;
+          const descVal = pickFirstKey(item, descKeys) || 'Dynamically fetched project from external API endpoint.';
+          const imgVal = pickFirstKey(item, imgKeys) || fallbackImg;
+
+          return {
+            id: String(item.id || titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + idx),
+            title: String(titleVal).slice(0, 45),
+            description: String(descVal).slice(0, 220),
+            category: String(item.category || item.language || 'Developement'),
+            tags: Array.isArray(item.tags) ? item.tags : ['Dynamic API', 'TXO R'],
+            image: imgVal,
+            gallery1: generateCardRasterPng('cyber-blueprint', String(titleVal).slice(0, 20), 'API NODE 01'),
+            gallery2: generateCardRasterPng('cyber-blueprint', String(titleVal).slice(0, 20), 'API NODE 02'),
+            longDescription: String(descVal)
+          };
+        });
+
+        appState.projects = mappedProjects;
+        appState.activeSourceLabel = 'Custom API (' + mappedProjects.length + ' items)';
+        saveState();
+        renderAll();
+        closeModal('modal-data-source');
+        showToast(`Successfully fetched ${mappedProjects.length} projects from URL!`);
+      } catch (err) {
+        showToast(`Fetch error (${err.message}). Check CORS or URL format.`);
+      }
+    }
+
+    function pickFirstKey(obj, keys) {
+      if (!obj || typeof obj !== 'object') return '';
+      for (const k of keys) {
+        if (k && obj[k] !== undefined && obj[k] !== null && obj[k] !== '') {
+          return obj[k];
+        }
+      }
+      return '';
+    }
+
+    function applyRawJsonProjects() {
+      const rawText = document.getElementById('raw-projects-json-textarea').value;
+      try {
+        const parsed = JSON.parse(rawText);
+        if (!Array.isArray(parsed)) {
+          showToast('JSON must be an array of project objects.');
+          return;
+        }
+        const defaultDark = generateCardRasterPng('dark-frame', '', '');
+        appState.projects = parsed.map((p, idx) => {
+          const existing = appState.projects.find(e => e.id === p.id);
+          const useImg = (!p.image || p.image === '[Raster PNG Data URL]')
+            ? (existing ? existing.image : defaultDark)
+            : p.image;
+          return {
+            id: p.id || `custom-${idx}`,
+            title: p.title || 'Untitled Project',
+            description: p.description || '',
+            category: p.category || 'Developement',
+            tags: Array.isArray(p.tags) ? p.tags : ['Custom'],
+            image: useImg,
+            gallery1: existing ? existing.gallery1 : generateCardRasterPng('cyber-blueprint', p.title || 'Project', 'VIEW 1'),
+            gallery2: existing ? existing.gallery2 : generateCardRasterPng('cyber-blueprint', p.title || 'Project', 'VIEW 2'),
+            longDescription: p.longDescription || p.description || ''
+          };
+        });
+        appState.activeSourceLabel = 'Custom JSON Payload';
+        saveState();
+        renderAll();
+        closeModal('modal-data-source');
+        showToast('Custom JSON projects applied!');
+      } catch (e) {
+        showToast('Invalid JSON syntax: ' + e.message);
+      }
+    }
+
+    function resetAllDataToDefault() {
+      localStorage.removeItem('txor_portfolio_state_v1');
+      appState.heroImage = generateHeroRobotPngDataUrl();
+      appState.services = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+      appState.projects = JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+      appState.activeSourceLabel = 'Default TXO R Projects';
+      initApp();
+      closeModal('modal-data-source');
+      showToast('Portfolio reset to original TXO R mockup defaults.');
+    }
+
+    function openAddProjectModal() {
+      editingProjectId = null;
+      document.getElementById('project-form-heading').textContent = 'Add New Project';
+      document.getElementById('pf-title').value = '';
+      document.getElementById('pf-desc').value = '';
+      document.getElementById('pf-image').value = '';
+      document.getElementById('pf-category').value = 'Developement';
+      document.getElementById('pf-tags').value = 'Zig, AI, Web';
+      document.getElementById('pf-long').value = '';
+      document.getElementById('pf-delete-btn').classList.add('hidden');
+      openModal('modal-project-form');
+    }
+
+    function openEditCurrentProjectModal() {
+      openEditProjectModalById(currentProjectId);
+    }
+
+    function openEditProjectModalById(projId) {
+      const p = appState.projects.find(x => x.id === projId);
+      if (!p) return;
+      editingProjectId = p.id;
+      document.getElementById('project-form-heading').textContent = 'Edit Project: ' + p.title;
+      document.getElementById('pf-title').value = p.title;
+      document.getElementById('pf-desc').value = p.description;
+      document.getElementById('pf-image').value = p.image.startsWith('data:') ? '' : p.image;
+      document.getElementById('pf-category').value = p.category || 'Developement';
+      document.getElementById('pf-tags').value = (p.tags || []).join(', ');
+      document.getElementById('pf-long').value = p.longDescription || p.description;
+      document.getElementById('pf-delete-btn').classList.remove('hidden');
+      openModal('modal-project-form');
+    }
+
+    function saveProjectForm() {
+      const title = document.getElementById('pf-title').value.trim() || 'Untitled Project';
+      const description = document.getElementById('pf-desc').value.trim() || 'High quality product built by TXO R.';
+      const imageInput = document.getElementById('pf-image').value.trim();
+      const category = document.getElementById('pf-category').value.trim() || 'Developement';
+      const tags = document.getElementById('pf-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const longDescription = document.getElementById('pf-long').value.trim() || description;
+
+      if (editingProjectId) {
+        const p = appState.projects.find(x => x.id === editingProjectId);
+        if (p) {
+          p.title = title;
+          p.description = description;
+          if (imageInput) p.image = imageInput;
+          p.category = category;
+          p.tags = tags;
+          p.longDescription = longDescription;
+        }
+      } else {
+        const newId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString().slice(-3);
+        appState.projects.push({
+          id: newId,
+          title,
+          description,
+          category,
+          tags,
+          image: imageInput || generateCardRasterPng('dark-frame', '', ''),
+          gallery1: generateCardRasterPng('cyber-blueprint', title, 'ARCHITECTURE'),
+          gallery2: generateCardRasterPng('cyber-blueprint', title, 'INTERFACE'),
+          longDescription
+        });
+        currentProjectId = newId;
+      }
+
+      saveState();
+      renderAll();
+      closeModal('modal-project-form');
+      showToast('Project saved successfully!');
+    }
+
+    function deleteEditingProject() {
+      if (!editingProjectId) return;
+      appState.projects = appState.projects.filter(p => p.id !== editingProjectId);
+      if (appState.projects.length > 0) {
+        currentProjectId = appState.projects[0].id;
+      }
+      saveState();
+      renderAll();
+      closeModal('modal-project-form');
+      showProjectsDirectory();
+      showToast('Project removed.');
+    }
+
+    function openServiceEditorModal() {
+      const s = appState.services.find(x => x.id === currentServiceId);
+      if (!s) return;
+      openImageEditorModal('service-showcase-img', `${s.name} Showcase Picture`, null, s.id);
+    }
+
+    function openContactModal(prefillSubject) {
+      const titleEl = document.getElementById('contact-modal-title');
+      if (titleEl && prefillSubject) {
+        titleEl.textContent = prefillSubject;
+      }
+      openModal('modal-contact');
+    }
+
+    function submitContactForm(e) {
+      e.preventDefault();
+      closeModal('modal-contact');
+      showToast('Message sent to TXO R (Mohammed)! I will get back to you shortly.');
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const text = document.getElementById('toast-message');
+      if (!box || !text) return;
+      text.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 3600);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('resize', () => {
+      renderHomeServicesButtons();
+    });
+
+    window.onload = function() {
+      initApp();
+    };
+  </script>
+</body>
+</html>

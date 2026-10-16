@@ -1,0 +1,40 @@
+:root {
+  --background: #1a1a1a;
+  --surface: #141414;
+  --blue: #3597dc;
+  --text: #75b9eb;
+  --muted: #9ac4e2;
+  --border: #3597dc;
+  --font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-color: var(--blue) var(--surface); }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--background); color: var(--text); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+main { flex: 1; min-width: 0; }
+h1, h2, h3, h4 { color: var(--blue); font-weight: 300; line-height: 1.2; margin: 0 0 1rem; overflow-wrap: anywhere; }
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h3 { font-size: 1.25rem; }
+p { margin: 0 0 1rem; }
+a { color: var(--text); text-underline-offset: .25em; }
+a:hover { color: #acd9fa; }
+img { display: block; max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+input, textarea, select { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 0; padding: .75rem; background: var(--surface); color: var(--text); }
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: .8; }
+textarea { resize: vertical; }
+label { display: grid; gap: .4rem; }
+fieldset { min-width: 0; border: 0; padding: 0; margin: 0; }
+:focus-visible { outline: 2px solid #c2e5ff; outline-offset: 5px; }
+[hidden] { display: none !important; }
+::selection { background: var(--blue); color: var(--background); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; top: .5rem; left: 1rem; z-index: 100; padding: .75rem 1rem; background: var(--blue); color: var(--background); transform: translateY(-150%); }
+.skip-link:focus { transform: translateY(0); }
+#main { scroll-margin-top: 6rem; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700" viewBox="0 0 700 700">
+  <defs>
+    <radialGradient id="background" cx="50%" cy="38%" r="65%"><stop stop-color="#0f1734"/><stop offset=".55" stop-color="#080c1c"/><stop offset="1" stop-color="#04050a"/></radialGradient>
+    <radialGradient id="body" cx="30%" cy="15%" r="90%"><stop stop-color="#2e3038"/><stop offset=".35" stop-color="#141519"/><stop offset="1" stop-color="#020203"/></radialGradient>
+    <radialGradient id="head" cx="33%" cy="25%" r="85%"><stop stop-color="#383a44"/><stop offset=".35" stop-color="#17181d"/><stop offset="1" stop-color="#020204"/></radialGradient>
+    <radialGradient id="eye"><stop stop-color="#e9d5ff"/><stop offset=".4" stop-color="#a855f7"/><stop offset="1" stop-color="#6b21a8"/></radialGradient>
+    <linearGradient id="badge"><stop stop-color="#a855f7"/><stop offset=".5" stop-color="#7e22ce"/><stop offset="1" stop-color="#9333ea"/></linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="12" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path fill="url(#background)" d="M0 0h700v700H0z"/>
+  <rect x="315" y="325" width="70" height="80" rx="20" fill="#17181d"/>
+  <rect x="175" y="365" width="350" height="380" rx="145" fill="url(#body)" stroke="#828fb4" stroke-opacity=".18" stroke-width="3"/>
+  <circle cx="350" cy="215" r="122" fill="url(#head)" stroke="#96a5cd" stroke-opacity=".22" stroke-width="2.5"/>
+  <g filter="url(#glow)"><circle cx="312" cy="198" r="18" fill="url(#eye)"/><circle cx="388" cy="198" r="18" fill="url(#eye)"/></g>
+  <rect x="258" y="482" width="184" height="72" rx="34" fill="url(#badge)" stroke="#d8b4fe" stroke-width="2" filter="url(#glow)"/>
+  <text x="350" y="532" fill="#090414" text-anchor="middle" font-family="Arial,sans-serif" font-size="37" font-weight="800">TXO R</text>
+</svg>

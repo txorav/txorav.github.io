@@ -1,0 +1,34 @@
+.catalog-controls { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.25rem; }
+.search-field { max-width: 480px; font-size: .875rem; }
+.filter-group { display: flex; flex-wrap: wrap; gap: .6rem; }
+.filter-button { min-height: 44px; padding: .5rem .9rem; border: 1px solid var(--border); background: transparent; color: var(--text); font-size: .85rem; }
+.filter-button:hover, .filter-button[aria-pressed="true"] { background: rgba(53, 151, 220, .16); color: #c2e5ff; }
+.catalog-status { color: var(--muted); font-size: .875rem; margin-bottom: 1.5rem; }
+.service-card { display: flex; flex-direction: column; }
+.service-card h2 { font-size: 1.5rem; }
+.service-card p { flex: 1; }
+.service-card .button { align-self: flex-start; }
+.service-visual { aspect-ratio: 16 / 10; margin-bottom: 1.5rem; }
+.service-detail { padding: 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.service-detail-copy { padding: clamp(1.5rem, 4vw, 3rem); }
+.service-detail > .image-frame { border: 0; border-left: 1px solid var(--border); }
+.deliverables { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; padding: 0; list-style: none; margin: 1rem 0 2rem; }
+.deliverables li { border: 1px solid var(--border); padding: .75rem; font-size: .85rem; }
+.workflow { margin-block: 4rem; }
+.workflow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.workflow-grid .panel { padding: 1.25rem; }
+.workflow-grid h3 { font-size: 1rem; }
+.workflow-grid p { font-size: .85rem; margin-bottom: 0; }
+.service-switcher { margin: 2rem 0; }
+.project-detail { margin-bottom: 3rem; }
+.project-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.project-gallery figure { margin: 0; }
+.project-gallery img { aspect-ratio: 16 / 10; object-fit: cover; }
+.project-gallery figcaption { margin-top: .5rem; color: var(--muted); font-size: .75rem; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 1.5rem 0; }
+.metrics div { border: 1px solid var(--border); padding: .75rem; }
+.metrics dt { color: var(--muted); font-size: .75rem; }
+.metrics dd { margin: .25rem 0 0; font-size: .875rem; overflow-wrap: anywhere; }
+@media (max-width: 900px) { .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .service-detail { grid-template-columns: 1fr; } .service-detail > .image-frame { border-left: 0; border-top: 1px solid var(--border); max-height: 360px; } .metrics { grid-template-columns: 1fr; } }
+@media (max-width: 400px) { .workflow-grid, .deliverables { grid-template-columns: 1fr; } }
