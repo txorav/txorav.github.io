@@ -7,6 +7,7 @@ export function layout({ site, title, description = site.description, path = '',
     ['projects', 'Projects', routes.projects], ['blog', 'Blog', routes.blog], ['contact', 'Contact Me', routes.contact],
   ];
   const canonical = absoluteFor(site, path);
+  const assetVersion = Date.now().toString(36);
   const structuredData = article ? JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: article.title, description: article.description,
@@ -31,9 +32,9 @@ export function layout({ site, title, description = site.description, path = '',
   <meta property="og:url" content="${e(canonical)}">
   <link rel="icon" type="image/svg+xml" href="${e(pathFor(site, 'assets/images/favicon.svg'))}">
   <link rel="alternate" type="application/rss+xml" title="${e(site.name)} Blog" href="${e(pathFor(site, routes.rss))}">
-  ${['base', 'layout', 'components', ...styles].map(style => `<link rel="stylesheet" href="${e(pathFor(site, `assets/css/${style}.css`))}">`).join('\n  ')}
-  <script type="module" src="${e(pathFor(site, 'assets/js/navigation.js'))}"></script>
-  ${scripts.map(script => `<script type="module" src="${e(pathFor(site, `assets/js/${script}.js`))}"></script>`).join('\n  ')}
+  ${['base', 'layout', 'components', ...styles].map(style => `<link rel="stylesheet" href="${e(pathFor(site, `assets/css/${style}.css`))}?v=${assetVersion}">`).join('\n  ')}
+  <script type="module" src="${e(pathFor(site, 'assets/js/navigation.js'))}?v=${assetVersion}"></script>
+  ${scripts.map(script => `<script type="module" src="${e(pathFor(site, `assets/js/${script}.js`))}?v=${assetVersion}"></script>`).join('\n  ')}
   ${structuredData ? `<script type="application/ld+json">${structuredData}</script>` : ''}
 </head>
 <body>
