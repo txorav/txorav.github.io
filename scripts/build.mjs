@@ -72,6 +72,13 @@ await emit('404.html', layout({
   site, title: 'Page not found',
   content: `<div class="page"><h1>Page not found</h1><p>This page may have moved or no longer exists.</p><a class="button button-outline" href="${e(pathFor(site))}">Back to home</a></div>`,
 }));
+try {
+  const cnameContent = await readFile(join(root, 'CNAME'), 'utf8');
+  await emit('CNAME', cnameContent);
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
+await emit('.nojekyll', '');
 
 const assets = join(root, 'src/assets');
 await cp(assets, join(output, 'assets'), { recursive: true });
