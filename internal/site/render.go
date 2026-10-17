@@ -20,7 +20,10 @@ func crumbs(items ...Crumb) []Crumb {
 
 func (s *Site) preparePages() error {
 	functions := template.FuncMap{
-		"path":     s.Path,
+		"path": s.Path,
+		"asset": func(path string) string {
+			return fmt.Sprintf("%s?v=%d", s.Path(path), s.now.UnixNano())
+		},
 		"absolute": s.Absolute,
 		"route": func(name string) (string, error) {
 			value, ok := routes[name]

@@ -15,12 +15,12 @@
   <meta property="og:url" content="{{absolute .Path}}">
   <link rel="icon" type="image/svg+xml" href="{{path "assets/images/favicon.svg"}}">
   <link rel="alternate" type="application/rss+xml" title="{{.Site.Config.Name}} Blog" href="{{route "rss"}}">
-  <link rel="stylesheet" href="{{path "assets/css/base.css"}}">
-  <link rel="stylesheet" href="{{path "assets/css/layout.css"}}">
-  <link rel="stylesheet" href="{{path "assets/css/components.css"}}">
-  {{range .Styles}}<link rel="stylesheet" href="{{path (printf "assets/css/%s.css" .)}}">{{end}}
-  <script type="module" src="{{path "assets/js/navigation.js"}}"></script>
-  {{range .Scripts}}<script type="module" src="{{path (printf "assets/js/%s.js" .)}}"></script>{{end}}
+  <link rel="stylesheet" href="{{asset "assets/css/base.css"}}">
+  <link rel="stylesheet" href="{{asset "assets/css/layout.css"}}">
+  <link rel="stylesheet" href="{{asset "assets/css/components.css"}}">
+  {{range .Styles}}<link rel="stylesheet" href="{{asset (printf "assets/css/%s.css" .)}}">{{end}}
+  <script type="module" src="{{asset "assets/js/navigation.js"}}"></script>
+  {{range .Scripts}}<script type="module" src="{{asset (printf "assets/js/%s.js" .)}}"></script>{{end}}
   {{if .Post}}<script type="application/ld+json">{{.Schema}}</script>{{end}}
 </head>
 <body>

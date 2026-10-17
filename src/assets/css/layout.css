@@ -6,8 +6,8 @@
 .site-navigation { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 2.5rem); }
 .site-navigation > a:not(.button) { text-decoration: none; font-size: .95rem; }
 .site-navigation [aria-current="page"] { color: #c2e5ff; text-decoration: underline !important; }
-.nav-toggle { display: inline-grid; place-items: center; flex: 0 0 48px; width: 48px; height: 48px; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: var(--surface); color: var(--blue); transition: background .2s ease, box-shadow .2s ease; }
-.nav-toggle:hover, .nav-toggle[aria-expanded="true"] { background: #102636; box-shadow: 0 0 18px rgba(53, 151, 220, .2); }
+.nav-toggle { display: inline-grid; place-items: center; flex: 0 0 48px; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--blue); transition: color .2s ease; }
+.nav-toggle:hover, .nav-toggle[aria-expanded="true"] { color: #c2e5ff; }
 .nav-toggle-icon { position: relative; width: 20px; height: 16px; }
 .nav-toggle-icon span { position: absolute; left: 0; width: 20px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .2s ease, opacity .2s ease; }
 .nav-toggle-icon span:nth-child(1) { top: 1px; }

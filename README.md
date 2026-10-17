@@ -79,7 +79,7 @@ The original single-file prototype remains unchanged as a reference, but is not 
 
 Every service, project, and published article gets a real route. The Go server redirects `/blog` and `/blog/index.html` to `/blog/`; unknown pages return HTTP 404. Static hosting needs directory-index support. URLs honor a subdirectory configured in the public site URL.
 
-Mobile navigation keeps the shared round hamburger/X button, keyboard support, and outside-click dismissal. Search and topic/category filtering are browser enhancements; all articles, projects, and navigation links exist in server-rendered HTML without JavaScript. Topic links support shareable URLs such as `/blog/?tag=Development`.
+Mobile navigation keeps the shared bare hamburger/X icon, keyboard support, and outside-click dismissal. CSS and JavaScript URLs include a build version to avoid stale assets after deployment. Search and topic/category filtering are browser enhancements; all articles, projects, and navigation links exist in server-rendered HTML without JavaScript. Topic links support shareable URLs such as `/blog/?tag=Development`.
 
 ## Add an article
 
