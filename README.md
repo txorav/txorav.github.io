@@ -1,107 +1,116 @@
-# TXO R portfolio
+# TXO R portfolio — Go
 
-A static, vanilla HTML/CSS/JavaScript website. No npm, frameworks, authentication, CMS, database, runtime API, or third-party CDN is required. The original single-file page is kept unchanged as a reference.
+Go powers the whole site through the standard library’s `html/template` engine. The frontend stays vanilla HTML, CSS, and JavaScript. No Node, npm, external Go dependencies, authentication, CMS, or database.
 
-## Generate the site
+## Run locally
 
-With Node.js 18.17 or newer:
-
-```sh
-node scripts/build.mjs
-```
-
-This dependency-free JavaScript script writes ready-to-host HTML, CSS, JavaScript, RSS, a sitemap, and a 404 page into `dist/`. It does not run tests. Node is only needed when generating the site, not on the hosting server.
-
-To view it locally with working directory routes, use the included dependency-free server:
+Requires Go 1.27 or newer. From the repository root:
 
 ```sh
-node scripts/serve.mjs
+go run ./cmd/portfolio serve
 ```
 
-It generates the site on startup and serves `dist/` at `http://localhost:8000/`. Restart it after editing source files. Set `PORT` to choose another port. The server is local-only and is not needed on a static hosting service.
+Open `http://127.0.0.1:8000/`. Go renders every page from the templates, serves local assets, and provides RSS, the sitemap, and proper 404 responses. Restart after editing source files. The server listens locally by default and supports graceful shutdown.
 
-Alternatively, serve `dist/` with any static server (for example, `python3 -m http.server 8000 --directory dist`). Use HTTP rather than double-clicking HTML files: the browser scripts use native JavaScript modules.
+```sh
+go run ./cmd/portfolio serve -addr 127.0.0.1:8080
+```
+
+`PORT` also sets the default port. Use `-root` when running against a different repository directory.
+
+## Generate the static site
+
+```sh
+go run ./cmd/portfolio build
+```
+
+Publish the **contents of `dist/`**. No Go runtime is needed on a static host. The same templates and content power both the Go server and generated HTML. The build includes RSS, sitemap, robots.txt, 404.html, assets, `.nojekyll`, and the root `CNAME` file. It only removes stale files recorded in the previous build manifest.
+
+The GitHub Pages workflow builds with Go and deploys `dist/`; the existing `txorav.me` domain is retained. No SPA fallback or Node build step is needed. Tests are not run by the build or workflow.
+
+## Manual GitHub CI/CD
+
+The original repository is [txorav/txorav.github.io](https://github.com/txorav/txorav.github.io). `.github/workflows/deploy.yml` runs **only when manually dispatched**; pushing a commit does not deploy automatically.
+
+1. Commit and push the Go rewrite, content, and workflow to the original repository's `main` branch. Actions runs committed GitHub code, not uncommitted files on your machine.
+2. In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source.
+3. Open **Actions → Manual CI/CD → Run workflow** and choose `main`, or use GitHub CLI:
+
+```sh
+gh workflow run deploy.yml --repo txorav/txorav.github.io --ref main
+```
+
+CI checks Go formatting, runs `go vet`, compiles the application, generates the static site, and uploads the Pages artifact. Deployment runs only after CI succeeds and only for `main`; manually selecting another branch runs CI without changing the live site. No unit tests are invoked.
+
+Follow runs in the [original repository's Actions page](https://github.com/txorav/txorav.github.io/actions/workflows/deploy.yml). The deployment's `github-pages` environment shows the published URL. The custom domain remains **https://txorav.me/** through the published `CNAME` file. GitHub Pages hosts the generated static files, not the Go development server.
 
 ## Structure
 
-- `src/data/site.mjs`: identity, public URL, contact email, and copyright text.
-- `src/data/routes.mjs`: shared navigation, blog, article, topic-filter, and RSS paths.
-- `src/data/services.mjs`: service descriptions, deliverables, pricing, and workflow.
-- `src/data/projects.mjs`: projects, case studies, tags, metrics, and optional demo/source URLs.
-- `src/templates/layout.mjs`: shared document head, navigation, and footer.
-- `src/templates/components.mjs`: shared cards, breadcrumbs, tags, and calls to action.
-- `src/templates/pages/`: separate home, services, projects, contact, and blog templates.
-- `src/assets/css/`: design tokens/base rules, layout, components, and page styles.
-- `src/assets/js/`: navigation, optional search/filtering, and local contact drafting.
-- `src/assets/images/`: local artwork; replace these files with your own images as needed.
-- `src/content/posts/`: article metadata and HTML content.
-- `scripts/`: generation and RSS code; no dependencies to install.
-- `dist/`: generated output. Change source files, not generated HTML.
+- `cmd/portfolio/main.go`: `build` / `serve` commands and server lifecycle.
+- `internal/site/site.go`: configuration, typed content, article loading, and shared routes.
+- `internal/site/render.go`: page registration, template helpers, and rendering.
+- `internal/site/publish.go`: static output, RSS/XML sitemap, and asset publishing.
+- `internal/site/http.go`: HTTP routes, redirects, headers, and 404 handling.
+- `src/templates/layout.gohtml`: shared HTML document and footer.
+- `src/templates/partials/`: shared navigation, cards, breadcrumbs, and other components.
+- `src/templates/pages/`: separate templates for every page and detail view.
+- `src/data/site.json`: identity, public URL, contact address, and copyright.
+- `src/data/services.json`: services and workflow; workflow entries are `[title, description]` pairs.
+- `src/data/projects.json`: project content; metric entries are `[label, value]` pairs.
+- `src/content/posts/`: article metadata and HTML bodies.
+- `src/assets/`: local styles, browser JavaScript, and artwork.
+- `dist/`: generated output; edit source files rather than generated HTML.
 
-All core content and navigation are delivered as HTML. JavaScript only enhances mobile navigation, filters, and the inquiry draft. Page links work with browser history, direct URLs, and refreshes; there is no client-side router.
+The original single-file prototype remains unchanged as a reference, but is not part of the published site.
 
-## Routes and navigation
+## Routes
 
-| Route | Generated page |
+| URL | Static output |
 | --- | --- |
 | `/` | `dist/index.html` |
 | `/services/` | `dist/services/index.html` |
+| `/services/graphic-design/` | `dist/services/graphic-design/index.html` |
 | `/projects/` | `dist/projects/index.html` |
+| `/projects/oxydoo/` | `dist/projects/oxydoo/index.html` |
 | `/blog/` | `dist/blog/index.html` |
 | `/blog/welcome-to-the-lab/` | `dist/blog/welcome-to-the-lab/index.html` |
 | `/contact/` | `dist/contact/index.html` |
 | `/rss.xml` | `dist/rss.xml` |
 
-Each service, project, and published article has its own directory route. The local server redirects URLs such as `/blog` to `/blog/`, supports direct visits and refreshes, and returns the generated 404 page for unknown paths. Static hosting only needs directory-index support; no SPA rewrites are required. All routes honor a configured site subdirectory.
+Every service, project, and published article gets a real route. The Go server redirects `/blog` and `/blog/index.html` to `/blog/`; unknown pages return HTTP 404. Static hosting needs directory-index support. URLs honor a subdirectory configured in the public site URL.
 
-Blog topic links use shareable URLs such as `/blog/?tag=Development`. Search and topic filtering enhance the static article list; every article remains accessible without JavaScript. Blog and RSS links are shared across every page's header/footer.
-
-Mobile navigation uses a round hamburger button that changes to a close icon. Its dropdown closes on navigation, Escape, an outside click, or tabbing out. Desktop navigation is restored when resizing, and links remain visible when JavaScript is disabled.
+Mobile navigation keeps the shared round hamburger/X button, keyboard support, and outside-click dismissal. Search and topic/category filtering are browser enhancements; all articles, projects, and navigation links exist in server-rendered HTML without JavaScript. Topic links support shareable URLs such as `/blog/?tag=Development`.
 
 ## Add an article
 
-Create a pair of files in `src/content/posts/`. The shared filename becomes the URL slug. Use lowercase letters, numbers, and hyphens.
+Create matching files in `src/content/posts/`. Their lowercase, hyphenated filename becomes the URL slug.
 
-For example, `my-new-article.json`:
+`my-article.json`:
 
 ```json
 {
-  "title": "My new article",
-  "description": "A short summary for the blog and RSS feed.",
-  "date": "2026-10-15",
+  "title": "My article",
+  "description": "A short summary for the blog and RSS.",
+  "date": "2026-10-16",
   "tags": ["Development"],
   "draft": false
 }
 ```
 
-Then `my-new-article.html`:
+`my-article.html`:
 
 ```html
 <p>Your introduction.</p>
-<h2>A section heading</h2>
-<p>Your article content.</p>
-<pre><code>const message = 'Hello';</code></pre>
+<h2>A section</h2>
+<p>Write article content here.</p>
 ```
 
-Write just the article body, not an entire HTML document. HTML is trusted author-written code, not visitor input. Escape angle brackets in code samples as `&lt;` and `&gt;`. Links to the site root from an article can use `../../`; for example, `../../projects/`. The generator makes relative article links absolute in RSS.
+Use an HTML body fragment, not a complete document. Escape code samples with `&lt;` and `&gt;`. Links such as `../../projects/` resolve from article pages and are converted to absolute URLs in RSS. Article HTML is trusted author code; all metadata is automatically escaped by Go templates.
 
-Run `node scripts/build.mjs` again. The article appears at `/blog/my-new-article/`, on the blog index, and in `/rss.xml`, newest first. Drafts and future-dated posts are excluded from pages, the sitemap, and RSS. Future posts require a new build on or after their publication date. Removed or unpublished articles are removed from the next generated output. Keep slugs stable after publishing so RSS item identifiers stay stable.
+Restart the server or rebuild to publish `/blog/my-article/`. Posts are ordered newest first; drafts and future-dated entries are excluded from routes, RSS, and the sitemap. Scheduled posts require a restart/rebuild on their publication date. Keep published slugs stable to preserve links and RSS identifiers. The included welcome article is starter content you can replace.
 
-The included welcome article is starter content; edit or replace it.
+## Configuration
 
-## Before publishing
+Edit `src/data/site.json`. `SITE_URL` and `CONTACT_EMAIL` environment variables override its URL and email. The URL must include the public domain and any deployment subdirectory; it determines canonical links, RSS, and sitemap URLs. No contact address has been invented.
 
-1. Set `url` in `src/data/site.mjs` to your actual public HTTPS URL, including a trailing slash. Subdirectory hosting is supported; include that subdirectory in the URL.
-2. Set `email` to your real contact address. No address was present in the original source, so none is invented here.
-3. Replace the illustrative covers/artwork and edit the content to suit your actual work. Project `image` values are paths relative to the site root. Project `url` values may be public HTTP(S) demo or source URLs; empty values link to an inquiry instead.
-4. Generate the site and upload **the contents of `dist/`** to a static host. Configure `404.html` as the host’s error page if supported.
-
-You can also supply `SITE_URL` and `CONTACT_EMAIL` as environment variables when generating. The default URL is only for local development; do not publish an RSS feed with localhost links.
-
-## Contact behavior
-
-There is deliberately no backend. The contact form validates and prepares a brief locally, lets visitors copy/download it, and provides an email-app link when a contact address is configured. It never claims a message was sent. Without JavaScript, the direct email link remains usable if configured. Nothing is saved in local storage, and there are no analytics or external fonts.
-
-## RSS
-
-The feed is `rss.xml` at the deployment root, linked from every page’s head and footer and from the blog. It includes titles, summaries, publication dates, categories, stable article URLs, and full article content. It is generated from the same source as the blog so there is no second article list to maintain.
+The inquiry form prepares a brief locally and supports copy/download. When an email is configured, it provides an email-app link for the visitor to review and send. It never claims a message was sent and stores no personal information.

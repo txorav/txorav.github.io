@@ -1,0 +1,14 @@
+{{define "navigation"}}
+<header class="site-header"><div class="container header-inner">
+  <a class="brand" href="{{route "home"}}" aria-label="{{.Site.Config.Name}} home">{{.Site.Config.Name}}</a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false" hidden>
+    <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <nav id="site-navigation" class="site-navigation" aria-label="Main navigation">
+    {{$active := .Active}}{{range .Site.Navigation}}
+      <a href="{{path .Path}}"{{if eq .Key $active}} aria-current="page"{{end}}>{{.Label}}</a>
+    {{end}}
+    <a class="button button-solid hire-link" href="{{route "contact"}}">Hire me</a>
+  </nav>
+</div></header>
+{{end}}

@@ -1,0 +1,11 @@
+{{define "content"}}
+<div class="page">{{template "breadcrumbs" .Crumbs}}
+  <div class="blog-heading"><header class="page-heading"><p class="eyebrow">From the lab</p><h1>Blog</h1><p class="lead">Notes on software, design, automation, and the ideas behind the work.</p></header><a class="button button-outline" href="{{route "rss"}}">Subscribe via RSS</a></div>
+  <section data-catalog data-filter-param="tag" data-item-label="articles" aria-label="Blog articles">
+    {{template "catalog-controls" (dict "Label" "articles" "Values" .Filters)}}
+    <p class="catalog-status" data-catalog-status role="status" aria-live="polite">{{len .Posts}} articles</p>
+    <div class="post-list">{{range .Posts}}{{template "post-card" .}}{{else}}<p>No articles published yet. Check back soon.</p>{{end}}</div>
+    <p class="notice" data-catalog-empty hidden>No articles match. Try another search or choose All.</p>
+  </section>
+</div>
+{{end}}

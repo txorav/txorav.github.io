@@ -1,0 +1,106 @@
+{
+  "services": [
+    {
+      "id": "graphic-design",
+      "name": "Graphic Design",
+      "summary": "High-impact brand identities, visual systems, and digital assets engineered to command attention and convert.",
+      "price": "Starting at $350 / Custom Package",
+      "deliverables": [
+        "Complete Brand Identity & Logo Systems",
+        "Ad Creatives & Social Visuals",
+        "Product Packaging & Pitch Deck Design",
+        "Print & Digital Brand Guidelines"
+      ]
+    },
+    {
+      "id": "ui-ux-design",
+      "name": "UI/UX Design",
+      "summary": "Wireframes, design systems, and conversion-focused SaaS and mobile product experiences.",
+      "price": "Starting at $500 / Full Product UI",
+      "deliverables": [
+        "Interactive Wireframes & User Flows",
+        "Pixel-Perfect Design Systems",
+        "Mobile & Web Application Interfaces",
+        "Conversion Rate & Usability Audits"
+      ]
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "summary": "Full-funnel growth architecture, go-to-market positioning, and customer acquisition built around measurable business outcomes.",
+      "price": "Custom Growth Retainer",
+      "deliverables": [
+        "Go-To-Market Product Strategy",
+        "Sales Funnels",
+        "Performance Analytics & Attribution",
+        "Offer Creation & Copywriting"
+      ]
+    },
+    {
+      "id": "social-media-marketing",
+      "name": "Social Media Marketing",
+      "summary": "Content systems, audience growth campaigns, and localized market strategies for brands and startups.",
+      "price": "Monthly Campaign Management",
+      "deliverables": [
+        "Content Strategy & Production Calendar",
+        "Paid Social Campaigns",
+        "Community Engagement & Lead Capture",
+        "Monthly ROI & Growth Reporting"
+      ]
+    },
+    {
+      "id": "automation",
+      "name": "Automation",
+      "summary": "Eliminate repetitive manual work with AI agents, custom workflows, and automated business pipelines.",
+      "price": "Custom Workflow Engineering",
+      "deliverables": [
+        "AI Sales & Support Agents",
+        "CRM & Lead Automation",
+        "Custom Python / Zig / Node Tools",
+        "Reporting & Invoicing Pipelines"
+      ]
+    },
+    {
+      "id": "integrations",
+      "name": "Integrations",
+      "summary": "Connect Odoo, ERPs, payment gateways, APIs, and custom microservices into one unified system.",
+      "price": "Per-Integration or System Scope",
+      "deliverables": [
+        "Odoo ERP Modules & Connectors",
+        "REST / GraphQL / Webhook Bridges",
+        "Payment Gateway Integrations",
+        "Database Sync & Legacy Migration"
+      ]
+    },
+    {
+      "id": "development",
+      "name": "Development",
+      "summary": "Software engineering in Zig, Python, TypeScript, and modern web technologies, with performance and maintainability in mind.",
+      "price": "Full-Stack / Systems Engineering",
+      "deliverables": [
+        "Web & SaaS Applications",
+        "Systems Tools & CLI Utilities in Zig",
+        "AI & Machine Learning Products",
+        "Backend Architecture"
+      ]
+    }
+  ],
+  "workflow": [
+    [
+      "Discovery & Audit",
+      "Understand your business, bottlenecks, and goals."
+    ],
+    [
+      "Architecture & Design",
+      "Plan the system, user experience, and delivery milestones."
+    ],
+    [
+      "Execution & Engineering",
+      "Build and refine the solution with the right tools."
+    ],
+    [
+      "Launch & Support",
+      "Deliver documentation and support a clear handover."
+    ]
+  ]
+}

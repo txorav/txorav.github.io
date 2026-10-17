@@ -1,0 +1,36 @@
+{{define "layout"}}<!doctype html>
+<html lang="{{.Site.Config.Language}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>{{.Title}} — {{.Site.Config.Name}}</title>
+  <meta name="description" content="{{.Description}}">
+  <link rel="canonical" href="{{absolute .Path}}">
+  <meta property="og:type" content="{{if .Post}}article{{else}}website{{end}}">
+  <meta property="og:site_name" content="{{.Site.Config.Name}}">
+  <meta property="og:title" content="{{.Title}}">
+  <meta property="og:description" content="{{.Description}}">
+  <meta property="og:url" content="{{absolute .Path}}">
+  <link rel="icon" type="image/svg+xml" href="{{path "assets/images/favicon.svg"}}">
+  <link rel="alternate" type="application/rss+xml" title="{{.Site.Config.Name}} Blog" href="{{route "rss"}}">
+  <link rel="stylesheet" href="{{path "assets/css/base.css"}}">
+  <link rel="stylesheet" href="{{path "assets/css/layout.css"}}">
+  <link rel="stylesheet" href="{{path "assets/css/components.css"}}">
+  {{range .Styles}}<link rel="stylesheet" href="{{path (printf "assets/css/%s.css" .)}}">{{end}}
+  <script type="module" src="{{path "assets/js/navigation.js"}}"></script>
+  {{range .Scripts}}<script type="module" src="{{path (printf "assets/js/%s.js" .)}}"></script>{{end}}
+  {{if .Post}}<script type="application/ld+json">{{.Schema}}</script>{{end}}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {{template "navigation" .}}
+  <main id="main" tabindex="-1">{{template "content" .}}</main>
+  <footer class="site-footer"><div class="container footer-inner">
+    <p>{{.Site.Config.License}}</p>
+    <nav class="footer-navigation" aria-label="Footer navigation"><a href="{{route "blog"}}">Blog</a><a href="{{route "rss"}}">RSS feed</a></nav>
+  </div></footer>
+</body>
+</html>
+{{end}}

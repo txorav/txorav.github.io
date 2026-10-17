@@ -1,0 +1,50 @@
+{{define "breadcrumbs"}}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>{{range .}}<li>{{if .Current}}<span aria-current="page">{{.Label}}</span>{{else}}<a href="{{path .Path}}">{{.Label}}</a>{{end}}</li>{{end}}</ol></nav>
+{{end}}
+
+{{define "tags"}}<ul class="tags" aria-label="Topics">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+{{define "topics"}}<ul class="tags" aria-label="Topics">{{range .}}<li><a href="{{topicURL .}}">{{.}}</a></li>{{end}}</ul>{{end}}
+
+{{define "project-card"}}
+<article class="project-card" data-catalog-item data-filter-values="{{json (list .Category)}}" data-search="{{.Title}} {{.Description}} {{join .Tags " "}}">
+  <a class="image-frame project-cover" href="{{projectURL .ID}}" aria-label="Read about {{.Title}}"><img src="{{path .Image}}" alt="" width="600" height="600" loading="lazy" decoding="async"></a>
+  <p class="eyebrow">{{.Category}}</p><h2><a href="{{projectURL .ID}}">{{.Title}}</a></h2>
+  <p>{{.Description}}</p><a class="button button-outline" href="{{projectURL .ID}}">Learn more<span class="sr-only"> about {{.Title}}</span></a>
+</article>
+{{end}}
+
+{{define "post-card"}}
+<article class="post-card panel" data-catalog-item data-filter-values="{{json .Tags}}" data-search="{{.Title}} {{.Description}} {{join .Tags " "}}">
+  <p class="post-meta"><time datetime="{{.Date}}">{{date .Date}}</time> · {{.ReadingMinutes}} min read</p>
+  <h2><a href="{{articleURL .Slug}}">{{.Title}}</a></h2><p>{{.Description}}</p>
+  {{template "topics" .Tags}}
+  <a class="text-link" href="{{articleURL .Slug}}">Read article<span class="sr-only">: {{.Title}}</span> →</a>
+</article>
+{{end}}
+
+{{define "service-card"}}
+<article class="service-card panel">
+  <div class="image-frame service-visual"><img src="{{path "assets/images/blueprint.svg"}}" alt="" width="600" height="600" loading="lazy" decoding="async"></div>
+  <h2>{{.Name}}</h2><p>{{.Summary}}</p><a class="button button-outline" href="{{serviceURL .ID}}">Explore service<span class="sr-only">: {{.Name}}</span></a>
+</article>
+{{end}}
+
+{{define "catalog-controls"}}
+<div class="catalog-controls" data-catalog-controls hidden>
+  <label class="search-field" for="catalog-search">Search {{.Label}}<input id="catalog-search" type="search" placeholder="Search by title or topic" autocomplete="off" data-catalog-search></label>
+  <div class="filter-group" role="group" aria-label="Filter {{.Label}}">
+    <button class="filter-button" type="button" data-filter="" aria-pressed="true">All</button>
+    {{range .Values}}<button class="filter-button" type="button" data-filter="{{.}}" aria-pressed="false">{{.}}</button>{{end}}
+  </div>
+</div>
+{{end}}
+
+{{define "workflow"}}
+<section class="workflow"><h2 class="section-heading">How I work</h2><div class="workflow-grid">
+  {{range $index, $step := .}}<article class="panel"><p class="eyebrow">Step {{printf "%02d" (inc $index)}}</p><h3>{{index $step 0}}</h3><p>{{index $step 1}}</p></article>{{end}}
+</div></section>
+{{end}}
+
+{{define "contact-callout"}}
+<section class="contact-callout section-border"><div class="container"><h2>Need a custom solution?</h2><a class="button button-solid" href="{{route "contact"}}">Contact me</a></div></section>
+{{end}}

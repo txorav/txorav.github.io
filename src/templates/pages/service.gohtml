@@ -1,0 +1,14 @@
+{{define "content"}}
+<div class="page">{{template "breadcrumbs" .Crumbs}}
+  {{$active := .Service.ID}}<nav class="filter-group service-switcher" aria-label="Specialties">{{range .Site.Services}}<a class="button button-outline" href="{{serviceURL .ID}}"{{if eq .ID $active}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}</nav>
+  {{with .Service}}<section class="service-detail panel"><div class="service-detail-copy">
+    <p class="eyebrow">TXO R specialty</p><h1>{{.Name}}</h1><p>{{.Summary}}</p>
+    <h2>What you get</h2><ul class="deliverables">{{range .Deliverables}}<li>{{.}}</li>{{end}}</ul>
+    <p class="eyebrow">Starting tier</p><p>{{.Price}}</p>
+    <div class="button-row"><a class="button button-solid" href="{{serviceInquiry .ID}}">Discuss this service</a><a class="button button-outline" href="{{route "projects"}}">See projects</a></div>
+  </div><div class="image-frame"><img src="{{path "assets/images/blueprint.svg"}}" alt="Abstract engineering blueprint" width="600" height="600"></div></section>{{end}}
+  {{template "workflow" .Site.Workflow}}
+  <p><a class="text-link" href="{{route "services"}}">← Explore all services</a></p>
+</div>
+{{template "contact-callout" .}}
+{{end}}

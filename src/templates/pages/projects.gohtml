@@ -1,0 +1,12 @@
+{{define "content"}}
+<div class="page">{{template "breadcrumbs" .Crumbs}}
+  <header class="page-heading"><p class="eyebrow">Selected work</p><h1>Projects</h1><p class="lead">Open-source tools, product design, and automation for real-world problems.</p></header>
+  <section data-catalog data-filter-param="category" data-item-label="projects" aria-label="Project directory">
+    {{template "catalog-controls" (dict "Label" "projects" "Values" .Filters)}}
+    <p class="catalog-status" data-catalog-status role="status" aria-live="polite">{{len .Projects}} projects</p>
+    <div class="card-grid">{{range .Projects}}{{template "project-card" .}}{{end}}</div>
+    <p class="notice" data-catalog-empty hidden>No projects match. Try another search or choose All.</p>
+  </section>
+</div>
+{{template "contact-callout" .}}
+{{end}}

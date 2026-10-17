@@ -1,0 +1,9 @@
+{{define "content"}}
+<article class="page article">{{template "breadcrumbs" .Crumbs}}
+  {{with .Post}}<header class="article-header"><p class="eyebrow">From the lab</p><h1>{{.Title}}</h1><p class="lead">{{.Description}}</p><p class="post-meta">By {{$.Site.Config.Author}} · <time datetime="{{.Date}}">{{date .Date}}</time> · {{.ReadingMinutes}} min read</p>{{template "topics" .Tags}}</header>
+  <div class="prose">{{.Content}}</div>{{end}}
+  <footer class="article-footer"><a class="text-link" href="{{route "blog"}}">← All articles</a><p>Get new articles in your feed reader: <a href="{{route "rss"}}">subscribe via RSS</a>.</p>
+    <nav class="article-navigation" aria-label="More articles">{{with .Newer}}<a href="{{articleURL .Slug}}">Newer: {{.Title}}</a>{{end}}{{with .Older}}<a href="{{articleURL .Slug}}">Older: {{.Title}}</a>{{end}}</nav>
+  </footer>
+</article>
+{{end}}

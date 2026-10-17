@@ -1,0 +1,90 @@
+[
+  {
+    "id": "oxydoo",
+    "title": "Oxydoo",
+    "category": "Development",
+    "description": "An open-source tool written in Zig that makes Odoo development easier and adds oxygen to the developer workflow.",
+    "body": "Oxydoo is a developer tool written in Zig, designed to streamline Odoo ERP development. It focuses on scaffolding, environment orchestration, and module workflows so engineering teams can spend more time building solutions.",
+    "tags": [
+      "Zig",
+      "Odoo ERP",
+      "Open Source",
+      "CLI Tooling",
+      "Systems"
+    ],
+    "image": "assets/images/project-cover.svg",
+    "metrics": [
+      [
+        "Core language",
+        "Zig"
+      ],
+      [
+        "License",
+        "Open source"
+      ],
+      [
+        "Focus",
+        "Developer workflow"
+      ]
+    ],
+    "url": ""
+  },
+  {
+    "id": "colox",
+    "title": "Colox",
+    "category": "UI/UX Design",
+    "description": "An open-source app that helps you choose colors for your next project based on their emotional meaning.",
+    "body": "Colox bridges color psychology and digital product design. Designers and founders can explore palettes based on the feeling they want a product to evoke, instead of choosing unrelated color values.",
+    "tags": [
+      "Color Psychology",
+      "UI/UX Design",
+      "Open Source",
+      "Web App"
+    ],
+    "image": "assets/images/project-cover.svg",
+    "metrics": [
+      [
+        "Focus",
+        "Color feeling"
+      ],
+      [
+        "Type",
+        "Open-source app"
+      ],
+      [
+        "Audience",
+        "Designers & developers"
+      ]
+    ],
+    "url": ""
+  },
+  {
+    "id": "hux-ai",
+    "title": "HUX.ai",
+    "category": "Automation",
+    "description": "An AI salesperson designed for the Algerian market to help businesses manage customer conversations and grow.",
+    "body": "HUX.ai is an AI sales assistant built around the Algerian market. It brings product catalogs, local language needs, and order confirmation workflows together to help businesses automate customer conversion.",
+    "tags": [
+      "AI Sales Agent",
+      "Algerian Market",
+      "Automation",
+      "NLP / LLM"
+    ],
+    "image": "assets/images/project-cover.svg",
+    "metrics": [
+      [
+        "Market",
+        "Algeria"
+      ],
+      [
+        "Role",
+        "AI sales assistant"
+      ],
+      [
+        "Focus",
+        "Sales automation"
+      ]
+    ],
+    "url": ""
+  }
+]

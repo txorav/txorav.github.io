@@ -1,0 +1,19 @@
+{{define "content"}}
+<div class="page">{{template "breadcrumbs" .Crumbs}}
+  {{with .Project}}<article class="project-detail two-column">
+    <div><div class="image-frame project-cover"><img src="{{path .Image}}" alt="{{.Title}} cover" width="600" height="600"></div>
+      <div class="project-gallery">
+        <figure><div class="image-frame"><img src="{{path "assets/images/blueprint.svg"}}" alt="Abstract blueprint illustration" width="600" height="600" loading="lazy"></div><figcaption>Architecture illustration</figcaption></figure>
+        <figure><div class="image-frame"><img src="{{path "assets/images/blueprint.svg"}}" alt="Abstract blueprint illustration" width="600" height="600" loading="lazy"></div><figcaption>Interface illustration</figcaption></figure>
+      </div>
+    </div>
+    <div><p class="eyebrow">{{.Category}}</p><h1>{{.Title}}</h1><p>{{.Description}}</p>
+      <section class="panel"><h2>About the project</h2><p>{{.Body}}</p></section>
+      {{template "tags" .Tags}}
+      <dl class="metrics">{{range .Metrics}}<div><dt>{{index . 0}}</dt><dd>{{index . 1}}</dd></div>{{end}}</dl>
+      <div class="button-row">{{if .URL}}<a class="button button-solid" href="{{.URL}}" rel="noopener noreferrer">View project</a>{{else}}<a class="button button-solid" href="{{projectInquiry .Title}}">Ask about this project</a>{{end}}<a class="button button-outline" href="{{route "projects"}}">All projects</a></div>
+    </div>
+  </article>{{end}}
+</div>
+{{template "contact-callout" .}}
+{{end}}
